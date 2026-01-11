@@ -234,7 +234,7 @@ header .container {
 /* Estilos para imágenes de productos - CORREGIDO */
 .product-image {
   width: 100%;
-  height: 400px;
+  height: 500px;  /* ← Aumentado de 400px a 500px */
   background: var(--blanco);
   border-bottom: 3px solid var(--rosa-medio);
   overflow: hidden;
@@ -242,7 +242,7 @@ header .container {
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 20px;
+  padding: 15px;  /* ← Reducido de 20px a 15px */
 }
 
 .product-image img {
@@ -1048,3 +1048,4 @@ footer p {
     transform: scale(0.95);
   }
 }
+
