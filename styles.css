@@ -231,34 +231,37 @@ header .container {
   display: none;
 }
 
-/* Estilos para imágenes de productos */
+/* Estilos para imágenes de productos - CORREGIDO */
 .product-image {
   width: 100%;
-  height: 350px;
-  background: var(--blanco); /* ← Fondo blanco */
+  height: 400px;
+  background: var(--blanco);
   border-bottom: 3px solid var(--rosa-medio);
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  padding: 20px;
 }
 
 .product-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* ← Muestra la imagen completa sin recortar */
-  transition: transform 0.4s ease;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.3s ease;
 }
 
+/* Hover suave - sin zoom exagerado */
 .product-card:hover .product-image img {
-  transform: scale(1.1);
+  transform: scale(1.03);
 }
 
 /* Placeholder para cuando no hay imagen */
 .product-image-placeholder {
   width: 100%;
-  height: 350px;
+  height: 400px;
   background: linear-gradient(
     135deg,
     var(--rosa-claro) 0%,
@@ -559,7 +562,8 @@ footer p {
 
   .product-image,
   .product-image-placeholder {
-    height: 320px;
+    height: 350px;
+    padding: 15px;
   }
 }
 
@@ -642,9 +646,12 @@ footer p {
 
   .product-image,
   .product-image-placeholder {
-    height: 250px;
-    background-size: cover;
-    background-position: center;
+    height: 300px;
+    padding: 15px;
+  }
+
+  .product-image img {
+    object-fit: contain;
   }
 
   .product-image-placeholder::before {
@@ -834,7 +841,13 @@ footer p {
 
   .product-image,
   .product-image-placeholder {
-    height: 300px;
+    height: 350px;
+    padding: 20px;
+  }
+
+  .product-image img {
+    object-fit: contain;
+    object-position: center;
   }
 
   .product-image-placeholder::before {
@@ -982,7 +995,8 @@ footer p {
 
   .product-image,
   .product-image-placeholder {
-    height: 280px;
+    height: 320px;
+    padding: 15px;
   }
 }
 
