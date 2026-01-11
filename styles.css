@@ -63,6 +63,13 @@ header .container {
   font-weight: bold;
 }
 
+.logo {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+}
+
 .cart-icon {
   font-size: 28px;
   cursor: pointer;
@@ -224,6 +231,31 @@ header .container {
   display: none;
 }
 
+/* Estilos para imágenes de productos */
+.product-image {
+  width: 100%;
+  height: 350px;
+  background: var(--blanco); /* ← Fondo blanco */
+  border-bottom: 3px solid var(--rosa-medio);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* ← Muestra la imagen completa sin recortar */
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.1);
+}
+
+/* Placeholder para cuando no hay imagen */
 .product-image-placeholder {
   width: 100%;
   height: 350px;
@@ -507,24 +539,6 @@ footer p {
 .product-card {
   animation: fadeIn 0.5s ease forwards;
 }
-.logo {
-  height: 80px;
-  width: auto;
-  object-fit: contain;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .logo {
-    height: 50px;
-  }
-}
-
-@media (max-width: 480px) {
-  .logo {
-    height: 40px;
-  }
-}
 
 /* Responsive Mejorado */
 
@@ -543,6 +557,7 @@ footer p {
     gap: 25px;
   }
 
+  .product-image,
   .product-image-placeholder {
     height: 320px;
   }
@@ -559,6 +574,10 @@ footer p {
     width: 100px;
     height: 50px;
     font-size: 11px;
+  }
+
+  .logo {
+    height: 50px;
   }
 
   .cart-icon {
@@ -621,8 +640,11 @@ footer p {
     gap: 20px;
   }
 
+  .product-image,
   .product-image-placeholder {
     height: 250px;
+    background-size: cover;
+    background-position: center;
   }
 
   .product-image-placeholder::before {
@@ -735,6 +757,10 @@ footer p {
     font-size: 9px;
   }
 
+  .logo {
+    height: 40px;
+  }
+
   .cart-icon {
     font-size: 22px;
     padding: 8px;
@@ -806,6 +832,7 @@ footer p {
     max-width: 100%;
   }
 
+  .product-image,
   .product-image-placeholder {
     height: 300px;
   }
@@ -953,6 +980,7 @@ footer p {
     font-size: 1.4rem;
   }
 
+  .product-image,
   .product-image-placeholder {
     height: 280px;
   }
@@ -985,14 +1013,6 @@ footer p {
 
   .cart-content {
     max-height: 95vh;
-  }
-}
-
-/* Asegurar que las imágenes se ajusten bien */
-@media (max-width: 768px) {
-  .product-image-placeholder {
-    background-size: cover;
-    background-position: center;
   }
 }
 
