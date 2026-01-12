@@ -26,8 +26,8 @@ function updateCartCount() {
 // Función para agregar producto al carrito
 function addToCart(productId) {
   const productCard = document.querySelector(`[data-id="${productId}"]`);
-  const productName = productCard.querySelector(".product-name").textContent;
-  const productPrice = productCard.querySelector(".product-price").textContent;
+  const productName = productCard.querySelector(".product-name").textContent.trim();
+  const productPrice = productCard.querySelector(".product-price").textContent.trim();
   const productCategory = productCard.getAttribute("data-category");
 
   // Verificar si el producto ya está en el carrito
@@ -88,9 +88,7 @@ function updateCartDisplay() {
                 </div>
                 <div>
                     <div class="cart-item-price">${item.price}</div>
-                    <button class="remove-item" onclick="removeFromCart('${
-                      item.id
-                    }')">🗑️</button>
+                    <button class="remove-item" onclick="removeFromCart('${item.id}')">🗑️</button>
                 </div>
             </div>
         `;
@@ -110,7 +108,7 @@ function getCategoryName(category) {
   return categories[category] || category;
 }
 
-// Función para generar mensaje de WhatsApp - CORREGIDA
+// Función para generar mensaje de WhatsApp
 function generateWhatsAppMessage() {
   if (cart.length === 0) {
     alert("Tu carrito está vacío. Agrega productos antes de consultar 🌸");
