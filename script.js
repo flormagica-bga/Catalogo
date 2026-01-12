@@ -9,8 +9,15 @@ const sendWhatsApp = document.getElementById("sendWhatsApp");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const productCards = document.querySelectorAll(".product-card");
 
-// Número de WhatsApp (CAMBIAR POR EL NÚMERO REAL)
-const whatsappNumber = "573112936580"; // Formato: 57 + número sin espacios
+// Número de WhatsApp
+const whatsappNumber = "573112936580";
+
+// Función para limpiar texto (elimina saltos de línea y espacios extras)
+function cleanText(text) {
+  return text
+    .replace(/\s+/g, ' ')  // Reemplaza múltiples espacios/tabs/saltos por un solo espacio
+    .trim();  // Elimina espacios al inicio y final
+}
 
 // Función para actualizar el contador del carrito
 function updateCartCount() {
@@ -26,8 +33,8 @@ function updateCartCount() {
 // Función para agregar producto al carrito
 function addToCart(productId) {
   const productCard = document.querySelector(`[data-id="${productId}"]`);
-  const productName = productCard.querySelector(".product-name").textContent.trim();
-  const productPrice = productCard.querySelector(".product-price").textContent.trim();
+  const productName = cleanText(productCard.querySelector(".product-name").textContent);
+  const productPrice = cleanText(productCard.querySelector(".product-price").textContent);
   const productCategory = productCard.getAttribute("data-category");
 
   // Verificar si el producto ya está en el carrito
@@ -115,8 +122,7 @@ function generateWhatsAppMessage() {
     return;
   }
 
-  let message =
-    "¡Hola! 🌸 Me interesan los siguientes productos de Flor Mágica:\n\n";
+  let message = "¡Hola! 🌸 Me interesan los siguientes productos de Flor Mágica:\n\n";
 
   cart.forEach((item, index) => {
     message += `${index + 1}. ${item.name}\n`;
@@ -124,8 +130,7 @@ function generateWhatsAppMessage() {
     message += `Precio: ${item.price}\n\n`;
   });
 
-  message +=
-    "¿Están disponibles estos productos? Me gustaría conocer más detalles. ✨";
+  message += "¿Están disponibles estos productos? Me gustaría conocer más detalles. ✨";
 
   // Codificar el mensaje para URL
   const encodedMessage = encodeURIComponent(message);
