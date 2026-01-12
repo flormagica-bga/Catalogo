@@ -110,7 +110,7 @@ function getCategoryName(category) {
   return categories[category] || category;
 }
 
-// Función para generar mensaje de WhatsApp
+// Función para generar mensaje de WhatsApp - CORREGIDA
 function generateWhatsAppMessage() {
   if (cart.length === 0) {
     alert("Tu carrito está vacío. Agrega productos antes de consultar 🌸");
@@ -121,10 +121,11 @@ function generateWhatsAppMessage() {
     "¡Hola! 🌸 Me interesan los siguientes productos de Flor Mágica:\n\n";
 
   cart.forEach((item, index) => {
-    message += `${index + 1}. ${item.name}\n`; // ← SIN ASTERISCOS
-    message += `   Categoría: ${getCategoryName(item.category)}\n`;
-    message += `   Precio: ${item.price}\n\n`;
+    message += `${index + 1}. ${item.name}\n`;
+    message += `Categoría: ${getCategoryName(item.category)}\n`;
+    message += `Precio: ${item.price}\n\n`;
   });
+
   message +=
     "¿Están disponibles estos productos? Me gustaría conocer más detalles. ✨";
 
