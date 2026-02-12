@@ -27,24 +27,6 @@ window.CATALOGO = [
     "alt": "hortensia rosada"
   },
   {
-    "id": "4",
-    "category": "collares",
-    "name": "Margarita",
-    "description": "Cadena en acero inoxidable",
-    "price": "$40.000",
-    "image": "productos/collares/margarita 2.jpeg",
-    "alt": "margarita 2"
-  },
-  {
-    "id": "5",
-    "category": "collares",
-    "name": "Margarita",
-    "description": "Cadena en acero inoxidable",
-    "price": "$40.000",
-    "image": "productos/collares/margarita.jpeg",
-    "alt": "margarita"
-  },
-  {
     "id": "6",
     "category": "collares",
     "name": "Mini Girasol",
@@ -72,24 +54,6 @@ window.CATALOGO = [
     "alt": "orquidea dendrobium"
   },
   {
-    "id": "9",
-    "category": "collares",
-    "name": "Orquidea Phalaenopsis Grande",
-    "description": "Collar hecho a mano con alambrismo acompañado de piedras de\n                murano y perlitas",
-    "price": "$170.000",
-    "image": "productos/collares/orquidea phalaenopsis grande 2.jpeg",
-    "alt": "orquidea phalaenopsis grande 2"
-  },
-  {
-    "id": "10",
-    "category": "collares",
-    "name": "Orquidea Phalaenopsis Grande",
-    "description": "Collar acompañado de piedras de amatista, murano y perlas",
-    "price": "$100.000",
-    "image": "productos/collares/orquidea phalaenopsis grande.jpeg",
-    "alt": "orquidea phalaenopsis Grande "
-  },
-  {
     "id": "11",
     "category": "collares",
     "name": "Orquidea Phalaenopsis Mini",
@@ -97,15 +61,6 @@ window.CATALOGO = [
     "price": "$60.000",
     "image": "productos/collares/orquidea phalaenopsis mini 2 .jpeg",
     "alt": " orquidea phalaenopsis mini 2"
-  },
-  {
-    "id": "12",
-    "category": "collares",
-    "name": "Orquidea Phalaenopsis Mini",
-    "description": "Cadena en acero inoxidable",
-    "price": "$60.000",
-    "image": "productos/collares/orquidea phalaenopsis mini 3.jpeg",
-    "alt": "orquidea phalaenopsis mini 3 "
   },
   {
     "id": "13",
@@ -189,15 +144,6 @@ window.CATALOGO = [
     "alt": "mini margaritas "
   },
   {
-    "id": "23",
-    "category": "aretes",
-    "name": "Orquidea Dendrobium",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$85.000",
-    "image": "productos/aretes/orquidea dendrobium 2.jpeg",
-    "alt": "orquidea dendrobium 2 "
-  },
-  {
     "id": "24",
     "category": "aretes",
     "name": "Orquidea Dendrobium",
@@ -270,15 +216,6 @@ window.CATALOGO = [
     "alt": "orquidea dendrobium "
   },
   {
-    "id": "32",
-    "category": "anillos",
-    "name": "Orquidea Phalaenopsis",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$55.000",
-    "image": "productos/anillos/orquidea phalaenopsis 2.jpeg",
-    "alt": "orquidea phalaenopsis 2 "
-  },
-  {
     "id": "33",
     "category": "anillos",
     "name": "Orquidea Phalaenopsis",
@@ -304,15 +241,6 @@ window.CATALOGO = [
     "price": "$60.000",
     "image": "productos/conjuntos/hortensias rosadas.jpeg",
     "alt": " hortensias rosadas"
-  },
-  {
-    "id": "36",
-    "category": "conjuntos",
-    "name": "Margaritas",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$80.000",
-    "image": "productos/conjuntos/margaritas.jpeg",
-    "alt": " margaritas"
   },
   {
     "id": "37",
@@ -352,11 +280,11 @@ window.CATALOGO = [
   },
   {
     "id": "41",
-    "category": "anillos",
+    "category": "collares",
     "name": "Orquídea Dendrobium",
     "description": "Herrajes en acero inoxidable",
     "price": "$85.000",
-    "image": "productos/anillos/orquidea dendrobium 4.jpeg",
+    "image": "productos/collares/orquidea dendrobium 4.jpeg",
     "alt": "Orquídea Dendrobium"
   },
   {

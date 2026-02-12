@@ -5,28 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Flor Magica - Panel Admin</title>
     <link rel="icon" type="image/png" href="../logo.png" />
+    <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="admin.css" />
   </head>
   <body>
-    <header class="admin-top">
-      <div class="admin-brand">
-        <img src="../logo.png" alt="Flor Magica" />
-        <div>
-          <span>Panel admin</span>
-          <h1>Catalogo simple</h1>
+    <header>
+      <div class="container admin-header">
+        <div class="logo-space admin-brand">
+          <img src="../logo.png" alt="Flor Magica" class="logo" />
+          <div class="admin-brand-text">
+            <span>Panel admin</span>
+            <h1>Catalogo</h1>
+          </div>
+        </div>
+        <div class="admin-top-actions">
+          <a
+            class="admin-link"
+            href="../index.html"
+            target="_blank"
+            rel="noopener"
+          >
+            Abrir catalogo
+          </a>
         </div>
       </div>
-      <div class="admin-top-actions">
-        <a
-          class="admin-link"
-          href="../index.html"
-          target="_blank"
-          rel="noopener"
-        >
-          Abrir catalogo
-        </a>
-      </div>
     </header>
+
+    <section class="hero admin-hero">
+      <div class="container">
+        <h1>Panel de edicion del catalogo</h1>
+        <div class="hero-content">
+          <p>
+            Administra los productos con el mismo estilo del catalogo. Aqui
+            puedes agregar, editar y eliminar sin perder el formato visual.
+          </p>
+          <p class="note">
+            Recuerda guardar o descargar catalogo.js al finalizar los cambios.
+          </p>
+        </div>
+      </div>
+    </section>
 
     <main class="admin-main">
       <section class="admin-section">
@@ -179,7 +197,7 @@
             <div class="admin-count" id="adminCount"></div>
           </div>
         </div>
-        <div class="admin-list" id="adminList"></div>
+        <div class="products-grid admin-list" id="adminList"></div>
       </section>
     </main>
 

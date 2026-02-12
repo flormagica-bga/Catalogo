@@ -210,27 +210,56 @@ function renderList() {
   }
 
   products.forEach((product) => {
-    const row = document.createElement("div");
-    row.className = "admin-row";
+    const card = document.createElement("div");
+    card.className = "product-card admin-product-card";
 
-    const header = document.createElement("div");
-    header.className = "admin-row-header";
+    const imageWrap = document.createElement("div");
+    imageWrap.className = "product-image";
+    const image = document.createElement("img");
+    image.src = getAdminImagePath(product.image);
+    image.alt = product.alt || product.name;
+    imageWrap.appendChild(image);
 
-    const title = document.createElement("h4");
-    title.textContent = `${product.name} · ID ${product.id}`;
+    const info = document.createElement("div");
+    info.className = "product-info";
 
-    const thumb = document.createElement("div");
-    thumb.className = "admin-thumb";
-    const thumbImg = document.createElement("img");
-    thumbImg.src = getAdminImagePath(product.image);
-    thumbImg.alt = product.alt || product.name;
-    thumb.appendChild(thumbImg);
+    const nameText = document.createElement("h3");
+    nameText.className = "product-name";
+    nameText.textContent = product.name;
 
-    header.appendChild(title);
-    header.appendChild(thumb);
+    const descriptionText = document.createElement("p");
+    descriptionText.className = "product-description";
+    descriptionText.textContent = product.description;
 
-    const grid = document.createElement("div");
-    grid.className = "admin-row-grid";
+    const priceText = document.createElement("p");
+    priceText.className = "product-price";
+    priceText.textContent = product.price;
+
+    const actions = document.createElement("div");
+    actions.className = "admin-card-actions";
+
+    const toggleButton = document.createElement("button");
+    toggleButton.type = "button";
+    toggleButton.className = "admin-secondary admin-toggle";
+    toggleButton.textContent = "Editar";
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "admin-remove";
+    removeButton.textContent = "Eliminar";
+    removeButton.addEventListener("click", () => {
+      products = products.filter((item) => item.id !== product.id);
+      renderStats();
+      renderValidation();
+      renderList();
+      enableExports();
+    });
+
+    actions.appendChild(toggleButton);
+    actions.appendChild(removeButton);
+
+    const editPanel = document.createElement("div");
+    editPanel.className = "admin-edit-panel";
 
     const categorySelect = document.createElement("select");
     [
@@ -253,7 +282,8 @@ function renderList() {
       product.image = `productos/${product.category}/${product.image
         .split("/")
         .pop()}`;
-      thumbImg.src = getAdminImagePath(product.image);
+      image.src = getAdminImagePath(product.image);
+      imageInput.value = product.image;
       renderValidation();
       renderStats();
     });
@@ -263,7 +293,10 @@ function renderList() {
     nameInput.value = product.name;
     nameInput.addEventListener("input", () => {
       product.name = nameInput.value.trim();
-      title.textContent = `${product.name} · ID ${product.id}`;
+      nameText.textContent = product.name || "Sin nombre";
+      if (!altInput.value.trim()) {
+        image.alt = product.name || "Producto";
+      }
       renderValidation();
     });
 
@@ -272,6 +305,7 @@ function renderList() {
     descriptionInput.value = product.description;
     descriptionInput.addEventListener("input", () => {
       product.description = descriptionInput.value.trim();
+      descriptionText.textContent = product.description;
     });
 
     const priceInput = document.createElement("input");
@@ -283,6 +317,7 @@ function renderList() {
         priceInput.value = formatted;
         product.price = formatted;
       }
+      priceText.textContent = product.price;
       priceInput.classList.toggle("invalid", !pricePattern.test(product.price));
       renderValidation();
     });
@@ -315,7 +350,7 @@ function renderList() {
       }
       product.image = newPath;
       imageInput.value = newPath;
-      thumbImg.src = getAdminImagePath(newPath);
+      image.src = getAdminImagePath(newPath);
       renderValidation();
     });
 
@@ -324,37 +359,32 @@ function renderList() {
     altInput.value = product.alt;
     altInput.addEventListener("input", () => {
       product.alt = altInput.value.trim();
-      thumbImg.alt = product.alt || product.name;
+      image.alt = product.alt || product.name;
     });
 
-    grid.appendChild(createField("Categoria", categorySelect));
-    grid.appendChild(createField("Nombre", nameInput));
-    grid.appendChild(createField("Descripcion", descriptionInput));
-    grid.appendChild(createField("Precio", priceInput));
+    editPanel.appendChild(createField("Categoria", categorySelect));
+    editPanel.appendChild(createField("Nombre", nameInput));
+    editPanel.appendChild(createField("Descripcion", descriptionInput));
+    editPanel.appendChild(createField("Precio", priceInput));
     const imageField = createField("Imagen", imageInput);
     imageField.appendChild(imageFileLabel);
-    grid.appendChild(imageField);
-    grid.appendChild(createField("Alt", altInput));
+    editPanel.appendChild(imageField);
+    editPanel.appendChild(createField("Alt", altInput));
 
-    const actions = document.createElement("div");
-    actions.className = "admin-row-actions";
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.className = "admin-remove";
-    removeButton.textContent = "Eliminar";
-    removeButton.addEventListener("click", () => {
-      products = products.filter((item) => item.id !== product.id);
-      renderStats();
-      renderValidation();
-      renderList();
-      enableExports();
+    toggleButton.addEventListener("click", () => {
+      const isOpen = editPanel.classList.toggle("open");
+      toggleButton.textContent = isOpen ? "Cerrar" : "Editar";
     });
-    actions.appendChild(removeButton);
 
-    row.appendChild(header);
-    row.appendChild(grid);
-    row.appendChild(actions);
-    adminList.appendChild(row);
+    info.appendChild(nameText);
+    info.appendChild(descriptionText);
+    info.appendChild(priceText);
+    info.appendChild(actions);
+    info.appendChild(editPanel);
+
+    card.appendChild(imageWrap);
+    card.appendChild(info);
+    adminList.appendChild(card);
   });
 }
 
