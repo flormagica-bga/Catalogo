@@ -435,7 +435,7 @@ window.CATALOGO = [
     "id": "60",
     "category": "collares",
     "name": "Orquídea Dendrobium",
-    "description": "Collar hecho a mano con técnica de Alambrismo, acompañado de perlas polvo de Nacar y Murano",
+    "description": "Collar hecho a mano acompañado de perlas polvo de Nacar y Murano",
     "price": "$180.000",
     "image": "productos/collares/orquidea dendrobium 4.jpeg",
     "alt": "Orquídea Dendrobium"
