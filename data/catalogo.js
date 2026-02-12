@@ -193,7 +193,7 @@ window.CATALOGO = [
     "category": "aretes",
     "name": "Orquidea Phalaenopsis Mini",
     "description": "Herrajes en acero inoxidable",
-    "price": "$85.000",
+    "price": "$75.000",
     "image": "productos/aretes/orquidea phalaenopsis mini.jpeg",
     "alt": "orquidea phalaenopsis mini "
   },
@@ -277,15 +277,6 @@ window.CATALOGO = [
     "price": "$130.000",
     "image": "productos/conjuntos/orquideas phalaenopsis mini.jpeg",
     "alt": " "
-  },
-  {
-    "id": "41",
-    "category": "collares",
-    "name": "Orquídea Dendrobium",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$85.000",
-    "image": "productos/collares/orquidea dendrobium 4.jpeg",
-    "alt": "Orquídea Dendrobium"
   },
   {
     "id": "42",
