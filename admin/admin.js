@@ -346,7 +346,7 @@ function applyProducts(data, statusMessage) {
 }
 
 function fetchCatalog() {
-  fetch("catalogo.json", { cache: "no-store" })
+  fetch("../data/catalogo.json", { cache: "no-store" })
     .then((response) => (response.ok ? response.json() : null))
     .then((data) => {
       if (Array.isArray(data) && data.length > 0) {
