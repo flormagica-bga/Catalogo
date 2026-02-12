@@ -99,6 +99,89 @@ header .container {
   font-family: "Arial", sans-serif;
 }
 
+/* Promo announcement */
+.promo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 245, 247, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 300;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 160ms ease,
+    visibility 0ms linear 160ms;
+}
+
+.promo-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 160ms ease,
+    visibility 0ms linear 160ms;
+}
+
+.promo-card {
+  position: relative;
+  max-width: 520px;
+  width: 100%;
+  background: linear-gradient(135deg, #fff0f5, #ffffff);
+  border: 2px solid var(--rosa-medio);
+  border-radius: 22px;
+  padding: 28px 26px 24px;
+  text-align: center;
+  box-shadow: 0 18px 40px var(--sombra);
+  transform: translateY(0) scale(1);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.promo-overlay.hidden .promo-card {
+  transform: translateY(6px) scale(0.98);
+}
+
+.promo-card h2 {
+  color: var(--rosa-oscuro);
+  font-size: 1.6rem;
+  margin: 10px 0 8px;
+  line-height: 1.3;
+}
+
+.promo-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  color: var(--rosa-fuerte);
+  font-weight: bold;
+}
+
+.promo-subtitle {
+  color: var(--texto-secundario);
+  font-size: 0.95rem;
+}
+
+.promo-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: #fff0f4;
+  color: var(--rosa-oscuro);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.promo-close:hover {
+  background: #ffe4ec;
+}
+
 /* Hero Section */
 .hero {
   padding: 60px 20px;
@@ -210,6 +293,14 @@ header .container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 35px;
+}
+
+.product-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--texto-secundario);
+  padding: 30px 10px;
+  font-style: italic;
 }
 
 .product-card {

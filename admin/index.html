@@ -13,7 +13,7 @@
         <img src="../logo.png" alt="Flor Magica" />
         <div>
           <span>Panel admin</span>
-          <h1>Gestion del catalogo</h1>
+          <h1>Catalogo simple</h1>
         </div>
       </div>
       <div class="admin-top-actions">
@@ -31,41 +31,58 @@
     <main class="admin-main">
       <section class="admin-section">
         <div class="admin-section-header">
-          <h2>1. Catalogo JSON (automatico)</h2>
+          <h2>Catalogo (un solo archivo)</h2>
           <div class="admin-section-actions">
-            <button class="admin-primary" id="exportJson" disabled>
-              Descargar catalogo.json
+            <button class="admin-secondary" id="saveCatalog" disabled>
+              Guardar directo
+            </button>
+            <button class="admin-primary" id="exportCatalog" disabled>
+              Descargar catalogo.js
             </button>
           </div>
         </div>
         <div class="admin-upload">
           <label class="admin-file">
-            <input type="file" id="catalogFile" accept="application/json" />
-            <span>Selecciona catalogo.json</span>
+            <input
+              type="file"
+              id="importCatalog"
+              accept="application/javascript,text/javascript,.js"
+            />
+            <span>Cargar catalogo.js</span>
           </label>
           <div class="admin-status" id="adminStatus">
-            Se cargara automaticamente el catalogo.json. Si quieres reemplazarlo
-            manualmente, usa el selector.
+            El catalogo se carga automaticamente desde data/catalogo.js.
+          </div>
+        </div>
+        <div class="admin-steps">
+          <div class="admin-step">
+            <span>1</span>
+            <div>
+              <strong>Descarga la imagen</strong>
+              <p>Guarda la foto en productos/categoria/.</p>
+            </div>
+          </div>
+          <div class="admin-step">
+            <span>2</span>
+            <div>
+              <strong>Agrega el producto</strong>
+              <p>Selecciona la imagen y llena el formulario.</p>
+            </div>
+          </div>
+          <div class="admin-step">
+            <span>3</span>
+            <div>
+              <strong>Guardar</strong>
+              <p>Usa "Guardar directo" o descarga catalogo.js.</p>
+            </div>
           </div>
         </div>
         <p class="admin-hint">
-          Este panel no esta enlazado desde el catalogo. Comparte este archivo
-          solo con quien deba editar. Luego reemplaza el catalogo.json en
-          GitHub.
+          Solo se usa data/catalogo.js. Si guardas directo, elige esa ruta.
         </p>
       </section>
 
       <section class="admin-section admin-grid">
-        <div class="admin-card">
-          <h3>Resumen rapido</h3>
-          <div class="admin-stats" id="adminStats"></div>
-          <div class="admin-validation" id="adminValidation"></div>
-          <p class="admin-hint">
-            Validaciones activas: precio con formato $0.000 y ruta de imagen con
-            "productos/" y extension valida.
-          </p>
-        </div>
-
         <div class="admin-card">
           <h3>Agregar producto</h3>
           <form class="admin-form" id="adminAddForm">
@@ -84,7 +101,7 @@
                 id="adminName"
                 name="name"
                 type="text"
-                placeholder="Ej: Margarita"
+                placeholder="Ej: Orquidea Dendrobium"
                 required
               />
             </div>
@@ -104,19 +121,30 @@
                 id="adminPrice"
                 name="price"
                 type="text"
-                placeholder="$40.000"
+                placeholder="$85.000"
                 required
               />
             </div>
             <div class="admin-field">
-              <label for="adminImage">Ruta de imagen</label>
-              <input
-                id="adminImage"
-                name="image"
-                type="text"
-                placeholder="productos/collares/mi-foto.jpeg"
-                required
-              />
+              <label>Imagen (ya guardada en productos/)</label>
+              <input id="adminImage" name="image" type="text" hidden />
+              <label class="admin-file">
+                <input
+                  type="file"
+                  id="adminImageFile"
+                  accept="image/*"
+                  required
+                />
+                <span>Seleccionar imagen</span>
+              </label>
+              <p class="admin-hint" id="adminImageHint">
+                Selecciona la imagen desde productos/categoria/. Se usa el
+                nombre real del archivo.
+              </p>
+              <div class="admin-image-preview" id="adminImagePreview">
+                <img src="" alt="Vista previa" id="adminImagePreviewImg" />
+                <span>Vista previa</span>
+              </div>
             </div>
             <div class="admin-field">
               <label for="adminAlt">Texto alternativo</label>
@@ -124,43 +152,38 @@
                 id="adminAlt"
                 name="alt"
                 type="text"
-                placeholder="Ej: margarita"
-                required
+                placeholder="Ej: orquidea dendrobium"
               />
             </div>
-            <button class="admin-primary" type="submit">
+            <button class="admin-primary" type="submit" id="adminAddButton">
               Agregar al catalogo
             </button>
           </form>
         </div>
+
+        <div class="admin-card">
+          <h3>Resumen</h3>
+          <div class="admin-stats" id="adminStats"></div>
+          <div class="admin-validation" id="adminValidation"></div>
+          <p class="admin-hint">
+            Imagenes: el nombre del archivo debe coincidir con la ruta en
+            productos/.
+          </p>
+        </div>
       </section>
 
       <section class="admin-section">
         <div class="admin-section-header">
-          <h2>2. Productos del catalogo</h2>
+          <h2>Productos</h2>
           <div class="admin-section-actions">
-            <label class="admin-file small">
-              <input id="importJson" type="file" accept="application/json" />
-              <span>Importar JSON</span>
-            </label>
+            <div class="admin-count" id="adminCount"></div>
           </div>
         </div>
         <div class="admin-list" id="adminList"></div>
       </section>
-
-      <section class="admin-section">
-        <div class="admin-section-header">
-          <h2>3. Vista previa</h2>
-          <div class="admin-section-actions">
-            <button class="admin-secondary" id="togglePreview" type="button">
-              Mostrar vista previa
-            </button>
-          </div>
-        </div>
-        <div class="admin-preview" id="adminPreview"></div>
-      </section>
     </main>
 
+    <script src="../data/catalogo.js"></script>
     <script src="admin.js"></script>
   </body>
 </html>

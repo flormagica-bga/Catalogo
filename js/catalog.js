@@ -10,6 +10,8 @@ const cartItems = document.getElementById("cartItems");
 const sendWhatsApp = document.getElementById("sendWhatsApp");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const productsGrid = document.getElementById("productsGrid");
+const promoOverlay = document.getElementById("promoOverlay");
+const promoClose = document.getElementById("promoClose");
 
 // Numero de WhatsApp (CAMBIAR POR EL NUMERO REAL)
 const whatsappNumber = "573112936580"; // Formato: 57 + numero sin espacios
@@ -173,6 +175,11 @@ function createProductCard(product) {
 }
 
 function renderProducts(products) {
+  if (!Array.isArray(products) || products.length === 0) {
+    showEmptyCatalogMessage();
+    return;
+  }
+
   productsGrid.innerHTML = "";
 
   products.forEach((product) => {
@@ -184,19 +191,18 @@ function renderProducts(products) {
   animateCards();
 }
 
-function loadCatalogFromJson() {
-  fetch("../data/catalogo.json", { cache: "no-store" })
-    .then((response) => (response.ok ? response.json() : null))
-    .then((data) => {
-      if (Array.isArray(data) && data.length > 0) {
-        renderProducts(data);
-      } else {
-        animateCards();
-      }
-    })
-    .catch(() => {
-      animateCards();
-    });
+function showEmptyCatalogMessage() {
+  productsGrid.innerHTML =
+    '<div class="product-empty">No hay productos. Reemplaza data/catalogo.js.</div>';
+}
+
+function loadCatalogFromData() {
+  if (Array.isArray(window.CATALOGO) && window.CATALOGO.length > 0) {
+    renderProducts(window.CATALOGO);
+    return;
+  }
+
+  showEmptyCatalogMessage();
 }
 
 filterButtons.forEach((button) => {
@@ -247,6 +253,14 @@ document.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("load", () => {
-  loadCatalogFromJson();
+  loadCatalogFromData();
   updateCartCount();
+  if (promoOverlay && promoClose) {
+    promoClose.addEventListener("click", () => {
+      promoOverlay.classList.add("hidden");
+      setTimeout(() => {
+        promoOverlay.setAttribute("aria-hidden", "true");
+      }, 180);
+    });
+  }
 });
