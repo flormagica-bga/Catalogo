@@ -594,7 +594,7 @@ window.CATALOGO = [
   {
     "id": "89",
     "category": "aretes",
-    "name": "Hortensias",
+    "name": "Hortensias Estilo: Topos",
     "description": "Herrajes en acero inoxidable",
     "price": "$35.000",
     "image": "productos/aretes/hortensias 2.jpeg",
