@@ -8,13 +8,122 @@ const closeCart = document.getElementById("closeCart");
 const cartCount = document.getElementById("cartCount");
 const cartItems = document.getElementById("cartItems");
 const sendWhatsApp = document.getElementById("sendWhatsApp");
-const filterButtons = document.querySelectorAll(".filter-btn");
+const filterButtonsContainer = document.querySelector(".filter-buttons");
 const productsGrid = document.getElementById("productsGrid");
-const promoOverlay = document.getElementById("promoOverlay");
-const promoClose = document.getElementById("promoClose");
+const promoBadgeWrap = document.getElementById("promoBadgeWrap");
+const promoBadgeButton = document.getElementById("promoBadgeButton");
+const promoPopover = document.getElementById("promoPopover");
+const promoPopoverClose = document.getElementById("promoPopoverClose");
 
 // Numero de WhatsApp (CAMBIAR POR EL NUMERO REAL)
 const whatsappNumber = "573112936580"; // Formato: 57 + numero sin espacios
+const defaultCategories = [
+  { value: "collares", label: "Collares" },
+  { value: "aretes", label: "Aretes" },
+  { value: "anillos", label: "Anillos" },
+  { value: "conjuntos", label: "Conjuntos" },
+];
+let categories = [];
+
+function normalizeBoolean(value) {
+  return value === true || value === "true";
+}
+
+function slugifyCategoryValue(value) {
+  return String(value || "")
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function formatCategoryLabel(value) {
+  return String(value || "")
+    .trim()
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function normalizeCategoryItem(item) {
+  if (!item) {
+    return null;
+  }
+
+  if (typeof item === "string") {
+    const value = slugifyCategoryValue(item);
+    if (!value) {
+      return null;
+    }
+    return {
+      value,
+      label: formatCategoryLabel(item) || formatCategoryLabel(value),
+    };
+  }
+
+  const rawValue = item.value || item.slug || item.id || item.category || item.name || item.label;
+  const value = slugifyCategoryValue(rawValue);
+  if (!value) {
+    return null;
+  }
+
+  return {
+    value,
+    label:
+      String(item.label || item.name || formatCategoryLabel(value)).trim() ||
+      formatCategoryLabel(value),
+  };
+}
+
+function normalizeCategories(categoryData, productData) {
+  const map = new Map();
+  const ordered = [];
+
+  const addCategory = (item) => {
+    const normalized = normalizeCategoryItem(item);
+    if (!normalized || map.has(normalized.value)) {
+      if (normalized && map.has(normalized.value) && normalized.label) {
+        map.get(normalized.value).label = normalized.label;
+      }
+      return;
+    }
+
+    map.set(normalized.value, normalized);
+    ordered.push(normalized);
+  };
+
+  defaultCategories.forEach(addCategory);
+  if (Array.isArray(categoryData)) {
+    categoryData.forEach(addCategory);
+  }
+
+  if (Array.isArray(productData)) {
+    productData.forEach((product) => addCategory(product?.category));
+  }
+
+  return ordered;
+}
+
+function getCategoryLabel(value) {
+  const normalizedValue = slugifyCategoryValue(value);
+  const category = categories.find((item) => item.value === normalizedValue);
+  return category?.label || formatCategoryLabel(normalizedValue) || value;
+}
+
+function setPromoPopoverState(isOpen) {
+  if (!promoBadgeButton || !promoPopover) {
+    return;
+  }
+
+  promoPopover.classList.toggle("open", isOpen);
+  promoPopover.setAttribute("aria-hidden", isOpen ? "false" : "true");
+  promoBadgeButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+}
 
 function updateCartCount() {
   cartCount.textContent = cart.length;
@@ -24,6 +133,11 @@ function updateCartCount() {
 function addToCart(productId) {
   const productCard = document.querySelector(`[data-id="${productId}"]`);
   if (!productCard) {
+    return;
+  }
+
+  if (productCard.getAttribute("data-agotado") === "true") {
+    alert("Este producto esta agotado por ahora 🌸");
     return;
   }
 
@@ -96,13 +210,7 @@ function updateCartDisplay() {
 }
 
 function getCategoryName(category) {
-  const categories = {
-    collares: "Collar",
-    aretes: "Aretes",
-    anillos: "Anillo",
-    conjuntos: "Conjunto",
-  };
-  return categories[category] || category;
+  return getCategoryLabel(category);
 }
 
 function generateWhatsAppMessage() {
@@ -127,6 +235,25 @@ function generateWhatsAppMessage() {
   window.open(whatsappURL, "_blank");
 }
 
+function renderFilterButtons() {
+  if (!filterButtonsContainer) {
+    return;
+  }
+
+  filterButtonsContainer.innerHTML = "";
+
+  const filters = [{ value: "todos", label: "Todos" }, ...categories];
+  filters.forEach((filter) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "filter-btn";
+    button.setAttribute("data-category", filter.value);
+    button.textContent = filter.label;
+    button.classList.toggle("active", currentFilter === filter.value);
+    filterButtonsContainer.appendChild(button);
+  });
+}
+
 function applyFilter(category) {
   currentFilter = category;
   const cards = Array.from(productsGrid.querySelectorAll(".product-card"));
@@ -142,6 +269,15 @@ function applyFilter(category) {
       card.style.display = "none";
     }
   });
+
+  if (filterButtonsContainer) {
+    filterButtonsContainer.querySelectorAll(".filter-btn").forEach((button) => {
+      button.classList.toggle(
+        "active",
+        button.getAttribute("data-category") === currentFilter,
+      );
+    });
+  }
 }
 
 function animateCards() {
@@ -154,20 +290,26 @@ function animateCards() {
 }
 
 function createProductCard(product) {
+  const isOutOfStock = normalizeBoolean(product.agotado);
+  const categoryValue = slugifyCategoryValue(product.category) || "collares";
   const card = document.createElement("div");
   card.className = "product-card";
-  card.setAttribute("data-category", product.category || "collares");
+  card.setAttribute("data-category", categoryValue);
   card.setAttribute("data-id", product.id || "");
+  card.setAttribute("data-agotado", isOutOfStock ? "true" : "false");
+  card.classList.toggle("is-out-of-stock", isOutOfStock);
 
   card.innerHTML = `
     <div class="product-image">
+      ${isOutOfStock ? '<span class="product-badge">Agotado</span>' : ""}
       <img src="${product.image}" alt="${product.alt || product.name}" />
     </div>
     <div class="product-info">
       <h3 class="product-name">${product.name}</h3>
       <p class="product-description">${product.description}</p>
       <p class="product-price">${product.price}</p>
-      <button class="add-to-cart">Agregar al Carrito</button>
+      ${isOutOfStock ? '<p class="product-stock-status">Producto agotado</p>' : ""}
+      <button class="add-to-cart"${isOutOfStock ? " disabled" : ""}>${isOutOfStock ? "Agotado" : "Agregar al Carrito"}</button>
     </div>
   `;
 
@@ -198,21 +340,34 @@ function showEmptyCatalogMessage() {
 
 function loadCatalogFromData() {
   if (Array.isArray(window.CATALOGO) && window.CATALOGO.length > 0) {
+    categories = normalizeCategories(window.CATEGORIAS, window.CATALOGO);
+    if (
+      currentFilter !== "todos" &&
+      !categories.some((category) => category.value === currentFilter)
+    ) {
+      currentFilter = "todos";
+    }
+    renderFilterButtons();
     renderProducts(window.CATALOGO);
     return;
   }
 
+  categories = normalizeCategories(window.CATEGORIAS, []);
+  renderFilterButtons();
   showEmptyCatalogMessage();
 }
 
-filterButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    filterButtons.forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
+if (filterButtonsContainer) {
+  filterButtonsContainer.addEventListener("click", (event) => {
+    const button = event.target.closest(".filter-btn");
+    if (!button) {
+      return;
+    }
+
     const selectedCategory = button.getAttribute("data-category");
     applyFilter(selectedCategory);
   });
-});
+}
 
 productsGrid.addEventListener("click", (event) => {
   const button = event.target.closest(".add-to-cart");
@@ -250,17 +405,41 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && cartModal.classList.contains("active")) {
     cartModal.classList.remove("active");
   }
+
+  if (e.key === "Escape" && promoPopover?.classList.contains("open")) {
+    setPromoPopoverState(false);
+  }
 });
 
 window.addEventListener("load", () => {
   loadCatalogFromData();
   updateCartCount();
-  if (promoOverlay && promoClose) {
-    promoClose.addEventListener("click", () => {
-      promoOverlay.classList.add("hidden");
-      setTimeout(() => {
-        promoOverlay.setAttribute("aria-hidden", "true");
-      }, 180);
+  if (promoBadgeButton && promoPopover) {
+    promoBadgeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setPromoPopoverState(!promoPopover.classList.contains("open"));
     });
+  }
+
+  if (promoPopoverClose) {
+    promoPopoverClose.addEventListener("click", () => {
+      setPromoPopoverState(false);
+    });
+  }
+
+  if (promoBadgeWrap) {
+    promoBadgeWrap.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!promoBadgeWrap || !promoPopover?.classList.contains("open")) {
+    return;
+  }
+
+  if (!promoBadgeWrap.contains(event.target)) {
+    setPromoPopoverState(false);
   }
 });

@@ -7,12 +7,17 @@ const adminValidation = document.getElementById("adminValidation");
 const adminAddForm = document.getElementById("adminAddForm");
 const adminList = document.getElementById("adminList");
 const adminCount = document.getElementById("adminCount");
+const adminCategorySelect = document.getElementById("adminCategory");
+const adminCategoryForm = document.getElementById("adminCategoryForm");
+const adminCategoryName = document.getElementById("adminCategoryName");
+const adminCategoryList = document.getElementById("adminCategoryList");
 const adminImageFile = document.getElementById("adminImageFile");
 const adminImagePreview = document.getElementById("adminImagePreview");
 const adminImagePreviewImg = document.getElementById("adminImagePreviewImg");
 const adminAddButton = document.getElementById("adminAddButton");
 
 let products = [];
+let categories = [];
 let nextProductId = 1;
 let pendingImageFile = null;
 let pendingImageUrl = "";
@@ -20,6 +25,109 @@ let catalogFileHandle = null;
 
 const pricePattern = /^\$\d{1,3}(\.\d{3})*$/;
 const imagePattern = /^productos\/.+\.(png|jpe?g|webp)$/i;
+const defaultCategories = [
+  { value: "collares", label: "Collares" },
+  { value: "aretes", label: "Aretes" },
+  { value: "anillos", label: "Anillos" },
+  { value: "conjuntos", label: "Conjuntos" },
+];
+
+function normalizeBoolean(value) {
+  return value === true || value === "true";
+}
+
+function slugifyCategoryValue(value) {
+  return String(value || "")
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function formatCategoryLabel(value) {
+  return String(value || "")
+    .trim()
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function normalizeCategoryItem(item) {
+  if (!item) {
+    return null;
+  }
+
+  if (typeof item === "string") {
+    const value = slugifyCategoryValue(item);
+    if (!value) {
+      return null;
+    }
+    return {
+      value,
+      label: formatCategoryLabel(item) || formatCategoryLabel(value),
+    };
+  }
+
+  const rawValue = item.value || item.slug || item.id || item.category || item.name || item.label;
+  const value = slugifyCategoryValue(rawValue);
+  if (!value) {
+    return null;
+  }
+
+  return {
+    value,
+    label:
+      String(item.label || item.name || formatCategoryLabel(value)).trim() ||
+      formatCategoryLabel(value),
+  };
+}
+
+function normalizeCategories(categoryData, productData) {
+  const map = new Map();
+  const ordered = [];
+
+  const addCategory = (item) => {
+    const normalized = normalizeCategoryItem(item);
+    if (!normalized || map.has(normalized.value)) {
+      if (normalized && map.has(normalized.value) && normalized.label) {
+        map.get(normalized.value).label = normalized.label;
+      }
+      return;
+    }
+
+    map.set(normalized.value, normalized);
+    ordered.push(normalized);
+  };
+
+  defaultCategories.forEach(addCategory);
+  if (Array.isArray(categoryData)) {
+    categoryData.forEach(addCategory);
+  }
+
+  if (Array.isArray(productData)) {
+    productData.forEach((product) => {
+      addCategory(product?.category);
+    });
+  }
+
+  return ordered;
+}
+
+function getCategoryLabel(value) {
+  const normalizedValue = slugifyCategoryValue(value);
+  const category = categories.find((item) => item.value === normalizedValue);
+  return category?.label || formatCategoryLabel(normalizedValue) || value;
+}
+
+function getDefaultCategoryValue() {
+  const defaultCategory = categories.find((item) => item.value === "collares");
+  return defaultCategory?.value || categories[0]?.value || "collares";
+}
 
 function setStatus(message, type) {
   adminStatus.textContent = message;
@@ -40,12 +148,13 @@ function normalizeProducts(data) {
 
       return {
         id,
-        category: item.category || "collares",
+        category: slugifyCategoryValue(item.category) || "collares",
         name: item.name || "",
         description: item.description || "",
         price: item.price || "",
         image: item.image || "",
         alt: item.alt || item.name || "",
+        agotado: normalizeBoolean(item.agotado),
       };
     })
     .filter((item) => item.name && item.image);
@@ -131,15 +240,15 @@ function renderStats() {
       acc[product.category] = (acc[product.category] || 0) + 1;
       return acc;
     },
-    { collares: 0, aretes: 0, anillos: 0, conjuntos: 0 },
+    {},
   );
 
   const stats = [
     { label: "Total", value: total },
-    { label: "Collares", value: counts.collares || 0 },
-    { label: "Aretes", value: counts.aretes || 0 },
-    { label: "Anillos", value: counts.anillos || 0 },
-    { label: "Conjuntos", value: counts.conjuntos || 0 },
+    ...categories.map((category) => ({
+      label: category.label,
+      value: counts[category.value] || 0,
+    })),
   ];
 
   stats.forEach((stat) => {
@@ -197,6 +306,58 @@ function createField(labelText, inputElement) {
   return wrapper;
 }
 
+function createCheckboxField(labelText, inputElement) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "admin-field admin-checkbox-field";
+
+  const label = document.createElement("label");
+  label.className = "admin-checkbox";
+
+  const text = document.createElement("span");
+  text.textContent = labelText;
+
+  label.appendChild(inputElement);
+  label.appendChild(text);
+  wrapper.appendChild(label);
+  return wrapper;
+}
+
+function renderCategoryOptions(selectElement, selectedValue) {
+  if (!selectElement) {
+    return;
+  }
+
+  const currentValue = slugifyCategoryValue(selectedValue) || getDefaultCategoryValue();
+  selectElement.innerHTML = "";
+
+  categories.forEach((category) => {
+    const option = document.createElement("option");
+    option.value = category.value;
+    option.textContent = category.label;
+    option.selected = category.value === currentValue;
+    selectElement.appendChild(option);
+  });
+
+  if (!selectElement.value && categories.length > 0) {
+    selectElement.value = currentValue;
+  }
+}
+
+function renderCategoryList() {
+  if (!adminCategoryList) {
+    return;
+  }
+
+  adminCategoryList.innerHTML = "";
+
+  categories.forEach((category) => {
+    const item = document.createElement("span");
+    item.className = "admin-category-tag";
+    item.textContent = `${category.label} (${category.value})`;
+    adminCategoryList.appendChild(item);
+  });
+}
+
 function renderList() {
   adminList.innerHTML = "";
   adminCount.textContent = `${products.length} productos`;
@@ -220,6 +381,12 @@ function renderList() {
     image.alt = product.alt || product.name;
     imageWrap.appendChild(image);
 
+    const stockBadge = document.createElement("span");
+    stockBadge.className = "product-badge";
+    stockBadge.textContent = "Agotado";
+    stockBadge.hidden = !product.agotado;
+    imageWrap.appendChild(stockBadge);
+
     const info = document.createElement("div");
     info.className = "product-info";
 
@@ -234,6 +401,18 @@ function renderList() {
     const priceText = document.createElement("p");
     priceText.className = "product-price";
     priceText.textContent = product.price;
+
+    const stockText = document.createElement("p");
+    stockText.className = "product-stock-status";
+
+    const updateStockState = () => {
+      const isOutOfStock = normalizeBoolean(product.agotado);
+      product.agotado = isOutOfStock;
+      card.classList.toggle("is-out-of-stock", isOutOfStock);
+      stockBadge.hidden = !isOutOfStock;
+      stockText.hidden = !isOutOfStock;
+      stockText.textContent = "Producto agotado";
+    };
 
     const actions = document.createElement("div");
     actions.className = "admin-card-actions";
@@ -262,20 +441,7 @@ function renderList() {
     editPanel.className = "admin-edit-panel";
 
     const categorySelect = document.createElement("select");
-    [
-      { value: "collares", label: "Collares" },
-      { value: "aretes", label: "Aretes" },
-      { value: "anillos", label: "Anillos" },
-      { value: "conjuntos", label: "Conjuntos" },
-    ].forEach((optionData) => {
-      const option = document.createElement("option");
-      option.value = optionData.value;
-      option.textContent = optionData.label;
-      if (optionData.value === product.category) {
-        option.selected = true;
-      }
-      categorySelect.appendChild(option);
-    });
+    renderCategoryOptions(categorySelect, product.category);
 
     categorySelect.addEventListener("change", () => {
       product.category = categorySelect.value;
@@ -362,6 +528,14 @@ function renderList() {
       image.alt = product.alt || product.name;
     });
 
+    const agotadoInput = document.createElement("input");
+    agotadoInput.type = "checkbox";
+    agotadoInput.checked = normalizeBoolean(product.agotado);
+    agotadoInput.addEventListener("change", () => {
+      product.agotado = agotadoInput.checked;
+      updateStockState();
+    });
+
     editPanel.appendChild(createField("Categoria", categorySelect));
     editPanel.appendChild(createField("Nombre", nameInput));
     editPanel.appendChild(createField("Descripcion", descriptionInput));
@@ -370,15 +544,18 @@ function renderList() {
     imageField.appendChild(imageFileLabel);
     editPanel.appendChild(imageField);
     editPanel.appendChild(createField("Alt", altInput));
+    editPanel.appendChild(createCheckboxField("Marcar como agotado", agotadoInput));
 
     toggleButton.addEventListener("click", () => {
       const isOpen = editPanel.classList.toggle("open");
       toggleButton.textContent = isOpen ? "Cerrar" : "Editar";
     });
 
+    updateStockState();
     info.appendChild(nameText);
     info.appendChild(descriptionText);
     info.appendChild(priceText);
+    info.appendChild(stockText);
     info.appendChild(actions);
     info.appendChild(editPanel);
 
@@ -400,17 +577,21 @@ function downloadFile(content, filename, type) {
   URL.revokeObjectURL(url);
 }
 
+function serializeCatalogFile() {
+  return `window.CATEGORIAS = ${JSON.stringify(categories, null, 2)};\nwindow.CATALOGO = ${JSON.stringify(products, null, 2)};\n`;
+}
+
 function enableExports() {
-  exportCatalogButton.disabled = products.length === 0;
+  const hasCatalogData = products.length > 0 || categories.length > 0;
+  exportCatalogButton.disabled = !hasCatalogData;
   if (saveCatalogButton) {
-    saveCatalogButton.disabled = products.length === 0;
+    saveCatalogButton.disabled = !hasCatalogData;
   }
 }
 
 function exportCatalog() {
-  const data = JSON.stringify(products, null, 2);
   downloadFile(
-    `window.CATALOGO = ${data};\n`,
+    serializeCatalogFile(),
     "catalogo.js",
     "application/javascript",
   );
@@ -418,7 +599,7 @@ function exportCatalog() {
 }
 
 async function saveCatalogToFile(fallbackToExport) {
-  const data = `window.CATALOGO = ${JSON.stringify(products, null, 2)};\n`;
+  const data = serializeCatalogFile();
 
   if (!window.showSaveFilePicker) {
     if (fallbackToExport) {
@@ -461,9 +642,12 @@ async function saveCatalogToFile(fallbackToExport) {
   }
 }
 
-function applyProducts(data, statusMessage) {
-  products = normalizeProducts(data);
+function applyCatalogData(productData, categoryData, statusMessage) {
+  products = normalizeProducts(productData);
+  categories = normalizeCategories(categoryData, products);
   updateNextId();
+  renderCategoryOptions(adminCategorySelect, adminCategorySelect?.value);
+  renderCategoryList();
   renderStats();
   renderValidation();
   renderList();
@@ -471,8 +655,12 @@ function applyProducts(data, statusMessage) {
   setStatus(statusMessage || "Catalogo cargado.");
 }
 
-function parseCatalogoJs(content) {
-  const match = content.match(/window\.CATALOGO\s*=\s*(\[.*\]);?/s);
+function parseAssignedArray(content, variableName) {
+  const pattern = new RegExp(
+    `window\\.${variableName}\\s*=\\s*(\\[[\\s\\S]*?\\]);`,
+    "m",
+  );
+  const match = content.match(pattern);
   if (!match) {
     return null;
   }
@@ -484,14 +672,63 @@ function parseCatalogoJs(content) {
   }
 }
 
+function parseCatalogoJs(content) {
+  const productsData = parseAssignedArray(content, "CATALOGO");
+  if (!Array.isArray(productsData)) {
+    return null;
+  }
+
+  return {
+    products: productsData,
+    categories: parseAssignedArray(content, "CATEGORIAS"),
+  };
+}
+
 function loadInitialCatalog() {
   if (Array.isArray(window.CATALOGO)) {
-    applyProducts(window.CATALOGO, "Catalogo cargado.");
+    applyCatalogData(window.CATALOGO, window.CATEGORIAS, "Catalogo cargado.");
     return;
   }
 
+  products = [];
+  categories = normalizeCategories(window.CATEGORIAS, products);
+  renderCategoryOptions(adminCategorySelect, getDefaultCategoryValue());
+  renderCategoryList();
+  renderStats();
+  renderValidation();
+  renderList();
+  enableExports();
   setStatus("No se encontro data/catalogo.js.", "error");
 }
+
+adminCategoryForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const rawName = String(adminCategoryName?.value || "").trim();
+  const value = slugifyCategoryValue(rawName);
+  const label = formatCategoryLabel(rawName);
+
+  if (!value || !label) {
+    setStatus("Escribe un nombre valido para la categoria.", "error");
+    return;
+  }
+
+  if (categories.some((category) => category.value === value)) {
+    setStatus("Esa categoria ya existe.", "error");
+    return;
+  }
+
+  categories.push({ value, label });
+  categories = normalizeCategories(categories, products);
+  renderCategoryOptions(adminCategorySelect, value);
+  renderCategoryList();
+  renderStats();
+  renderList();
+  enableExports();
+  setStatus("Categoria creada. Guarda catalogo.js en data/.");
+  adminCategoryForm.reset();
+  saveCatalogToFile(true);
+});
 
 adminAddForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -500,11 +737,12 @@ adminAddForm.addEventListener("submit", (event) => {
   }
 
   const formData = new FormData(adminAddForm);
-  const category = formData.get("category");
+  const category = slugifyCategoryValue(formData.get("category")) || getDefaultCategoryValue();
   const name = String(formData.get("name") || "").trim();
   const description = String(formData.get("description") || "").trim();
   const priceValue = String(formData.get("price") || "").trim();
   const alt = String(formData.get("alt") || "").trim() || name;
+  const agotado = formData.get("agotado") === "on";
 
   if (!name) {
     setStatus("Completa el nombre.", "error");
@@ -553,6 +791,7 @@ adminAddForm.addEventListener("submit", (event) => {
     price: formattedPrice,
     image: imagePath,
     alt,
+    agotado,
   });
 
   renderStats();
@@ -560,7 +799,7 @@ adminAddForm.addEventListener("submit", (event) => {
   renderList();
   enableExports();
   adminAddForm.reset();
-  adminAddForm.querySelector("select").value = "collares";
+  renderCategoryOptions(adminCategorySelect, getDefaultCategoryValue());
   resetPendingImage();
   setStatus("Producto agregado. Guarda catalogo.js en data/.");
   saveCatalogToFile(true);
@@ -584,8 +823,12 @@ importCatalogInput.addEventListener("change", (event) => {
   const reader = new FileReader();
   reader.onload = () => {
     const data = parseCatalogoJs(reader.result);
-    if (Array.isArray(data)) {
-      applyProducts(data, "Catalogo cargado desde archivo.");
+    if (data?.products) {
+      applyCatalogData(
+        data.products,
+        data.categories,
+        "Catalogo cargado desde archivo.",
+      );
     } else {
       setStatus("El archivo catalogo.js no es valido.", "error");
     }

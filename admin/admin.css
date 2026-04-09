@@ -123,9 +123,36 @@ body {
   gap: 6px;
 }
 
+.admin-checkbox-field {
+  margin-top: 4px;
+}
+
 .admin-field label {
   font-size: 0.9rem;
   color: var(--texto-secundario);
+}
+
+.admin-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--rosa-claro);
+  background: #fff8fb;
+  color: var(--texto-principal);
+  cursor: pointer;
+}
+
+.admin-field .admin-checkbox input {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  accent-color: var(--rosa-fuerte);
 }
 
 .admin-field input,
@@ -203,6 +230,24 @@ body {
 .admin-upload {
   display: grid;
   gap: 12px;
+}
+
+.admin-category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.admin-category-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff6f9;
+  border: 1px solid var(--rosa-claro);
+  color: var(--rosa-oscuro);
+  font-size: 0.85rem;
 }
 
 .admin-status {
@@ -318,6 +363,14 @@ body {
   gap: 12px;
   margin-top: 12px;
   flex-wrap: wrap;
+}
+
+.admin-product-card.is-out-of-stock {
+  box-shadow: 0 5px 20px rgba(179, 18, 67, 0.16);
+}
+
+.admin-product-card .product-stock-status {
+  margin-bottom: 16px;
 }
 
 .admin-edit-panel {

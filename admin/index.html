@@ -173,10 +173,39 @@
                 placeholder="Ej: orquidea dendrobium"
               />
             </div>
+            <div class="admin-field admin-checkbox-field">
+              <label class="admin-checkbox" for="adminAgotado">
+                <input id="adminAgotado" name="agotado" type="checkbox" />
+                <span>Marcar como agotado</span>
+              </label>
+            </div>
             <button class="admin-primary" type="submit" id="adminAddButton">
               Agregar al catalogo
             </button>
           </form>
+        </div>
+
+        <div class="admin-card">
+          <h3>Categorias</h3>
+          <form class="admin-form" id="adminCategoryForm">
+            <div class="admin-field">
+              <label for="adminCategoryName">Nueva categoria</label>
+              <input
+                id="adminCategoryName"
+                name="categoryName"
+                type="text"
+                placeholder="Ej: Llaveros"
+                required
+              />
+            </div>
+            <button class="admin-secondary" type="submit">
+              Crear categoria
+            </button>
+          </form>
+          <div class="admin-category-list" id="adminCategoryList"></div>
+          <p class="admin-hint">
+            La carpeta esperada para imagenes sera productos/nombre-categoria/.
+          </p>
         </div>
 
         <div class="admin-card">
