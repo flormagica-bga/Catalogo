@@ -354,12 +354,20 @@ header .container {
 }
 
 .product-name:focus,
+.product-reference:focus,
 .product-description:focus,
 .product-price:focus {
   outline: 2px solid var(--rosa-medio);
   background: #fff9fa;
   border-radius: 5px;
   padding: 5px;
+}
+
+.product-reference {
+  font-size: 0.92rem;
+  color: var(--rosa-oscuro);
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .product-description {

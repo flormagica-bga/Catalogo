@@ -935,17 +935,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "128",
-    "category": "anillos",
-    "name": "Orquidea Odontoglossum",
-    "reference": "NP13",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$57.000",
-    "image": "productos/anillos/Orquidea Odontoglossum NP10.jpeg",
-    "alt": "Orquidea Odontoglossum",
-    "agotado": false
-  },
-  {
     "id": "129",
     "category": "anillos",
     "name": "Orquidea Odontoglossum",
@@ -1201,7 +1190,7 @@ window.CATALOGO = [
   {
     "id": "152",
     "category": "aretes",
-    "name": "Orquidea phalaenopsis mini Orquideas intervenidas",
+    "name": "Orquidea phalaenopsis mini  intervenidas",
     "reference": "AP28",
     "description": "Herrajes en acero inoxidable",
     "price": "$75.000",

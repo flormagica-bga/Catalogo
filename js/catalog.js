@@ -224,34 +224,25 @@ function generateWhatsAppMessage() {
     return;
   }
 
-  const intro =
-    cart.length === 1
-      ? "Hola, quiero consultar por este producto:"
-      : "Hola, quiero consultar por estos productos:";
-
   const blocks = cart.map((item) => {
-    const lines = [`Nombre: ${item.name}`];
+    const lines = [];
+
+    if (item.category) {
+      lines.push(`Categoria: ${getCategoryName(item.category)}`);
+    }
+
+    lines.push(`Nombre: ${item.name}`);
 
     if (item.reference) {
       lines.push(`Referencia: ${item.reference}`);
     }
 
-    lines.push(`Categoria: ${getCategoryName(item.category)}`);
     lines.push(`Precio: ${item.price}`);
-
-    if (item.link) {
-      lines.push(`Link: ${item.link}`);
-    }
 
     return lines.join("\n");
   });
 
-  const closing =
-    cart.length === 1
-      ? "Quiero conocer mas detalles y disponibilidad."
-      : "Quiero conocer mas detalles y disponibilidad de estos productos.";
-
-  const message = `${intro}\n\n${blocks.join("\n\n")}\n\n${closing}`;
+  const message = `Hola, estoy interesado en estos productos:\n\n${blocks.join("\n\n")}`;
 
   const encodedMessage = encodeURIComponent(message);
   const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
@@ -312,6 +303,43 @@ function animateCards() {
   });
 }
 
+function getOrderedProducts(products, selectedCategory) {
+  const categoryOrder = new Map();
+
+  products.forEach((product, index) => {
+    const categoryValue = slugifyCategoryValue(product?.category) || "collares";
+    if (!categoryOrder.has(categoryValue)) {
+      categoryOrder.set(categoryValue, index);
+    }
+  });
+
+  return products
+    .map((product, index) => ({
+      product,
+      index,
+      categoryValue: slugifyCategoryValue(product?.category) || "collares",
+      isOutOfStock: normalizeBoolean(product?.agotado),
+    }))
+    .sort((a, b) => {
+      if (selectedCategory === "todos" && a.isOutOfStock !== b.isOutOfStock) {
+        return a.isOutOfStock ? 1 : -1;
+      }
+
+      const sectionOrder =
+        categoryOrder.get(a.categoryValue) - categoryOrder.get(b.categoryValue);
+      if (sectionOrder !== 0) {
+        return sectionOrder;
+      }
+
+      if (a.isOutOfStock !== b.isOutOfStock) {
+        return a.isOutOfStock ? 1 : -1;
+      }
+
+      return a.index - b.index;
+    })
+    .map((item) => item.product);
+}
+
 function createProductCard(product) {
   const isOutOfStock = normalizeBoolean(product.agotado);
   const categoryValue = slugifyCategoryValue(product.category) || "collares";
@@ -332,6 +360,7 @@ function createProductCard(product) {
     </div>
     <div class="product-info">
       <h3 class="product-name">${product.name}</h3>
+      ${reference ? `<p class="product-reference">Referencia: ${reference}</p>` : ""}
       <p class="product-description">${product.description}</p>
       <p class="product-price">${product.price}</p>
       ${isOutOfStock ? '<p class="product-stock-status">Producto agotado</p>' : ""}
@@ -349,8 +378,9 @@ function renderProducts(products) {
   }
 
   productsGrid.innerHTML = "";
+  const orderedProducts = getOrderedProducts(products, currentFilter);
 
-  products.forEach((product) => {
+  orderedProducts.forEach((product) => {
     const card = createProductCard(product);
     productsGrid.appendChild(card);
   });
