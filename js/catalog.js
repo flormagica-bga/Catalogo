@@ -10,10 +10,6 @@ const cartItems = document.getElementById("cartItems");
 const sendWhatsApp = document.getElementById("sendWhatsApp");
 const filterButtonsContainer = document.querySelector(".filter-buttons");
 const productsGrid = document.getElementById("productsGrid");
-const promoBadgeWrap = document.getElementById("promoBadgeWrap");
-const promoBadgeButton = document.getElementById("promoBadgeButton");
-const promoPopover = document.getElementById("promoPopover");
-const promoPopoverClose = document.getElementById("promoPopoverClose");
 
 // Numero de WhatsApp (CAMBIAR POR EL NUMERO REAL)
 const whatsappNumber = "573112936580"; // Formato: 57 + numero sin espacios
@@ -115,16 +111,6 @@ function getCategoryLabel(value) {
   return category?.label || formatCategoryLabel(normalizedValue) || value;
 }
 
-function setPromoPopoverState(isOpen) {
-  if (!promoBadgeButton || !promoPopover) {
-    return;
-  }
-
-  promoPopover.classList.toggle("open", isOpen);
-  promoPopover.setAttribute("aria-hidden", isOpen ? "false" : "true");
-  promoBadgeButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
-}
-
 function updateCartCount() {
   cartCount.textContent = cart.length;
   cartCount.style.display = cart.length > 0 ? "flex" : "none";
@@ -144,6 +130,9 @@ function addToCart(productId) {
   const productName = productCard.querySelector(".product-name").textContent;
   const productPrice = productCard.querySelector(".product-price").textContent;
   const productCategory = productCard.getAttribute("data-category");
+  const productReference = String(
+    productCard.getAttribute("data-reference") || "",
+  ).trim();
 
   const existingProduct = cart.find((item) => item.id === productId);
 
@@ -155,8 +144,10 @@ function addToCart(productId) {
   const product = {
     id: productId,
     name: productName,
+    reference: productReference,
     price: productPrice,
     category: productCategory,
+    link: getProductLink(productId),
   };
 
   cart.push(product);
@@ -213,22 +204,54 @@ function getCategoryName(category) {
   return getCategoryLabel(category);
 }
 
+function getProductReference(product) {
+  return String(product?.reference ?? product?.referencia ?? "").trim();
+}
+
+function getProductAnchorId(productId) {
+  return `producto-${String(productId || "").trim()}`;
+}
+
+function getProductLink(productId) {
+  const productUrl = new URL(window.location.href);
+  productUrl.hash = getProductAnchorId(productId);
+  return productUrl.toString();
+}
+
 function generateWhatsAppMessage() {
   if (cart.length === 0) {
-    alert("Tu carrito esta vacio. Agrega productos antes de consultar 🌸");
+    alert("Tu carrito esta vacio. Agrega productos antes de consultar.");
     return;
   }
 
-  let message =
-    "¡Hola! 🌸 Me interesan los siguientes productos de Flor Magica:\n\n";
+  const intro =
+    cart.length === 1
+      ? "Hola, quiero consultar por este producto:"
+      : "Hola, quiero consultar por estos productos:";
 
-  cart.forEach((item, index) => {
-    message += `${index + 1}. ${item.name}\n`;
-    message += `   Categoria: ${getCategoryName(item.category)}\n`;
-    message += `   Precio: ${item.price}\n\n`;
+  const blocks = cart.map((item) => {
+    const lines = [`Nombre: ${item.name}`];
+
+    if (item.reference) {
+      lines.push(`Referencia: ${item.reference}`);
+    }
+
+    lines.push(`Categoria: ${getCategoryName(item.category)}`);
+    lines.push(`Precio: ${item.price}`);
+
+    if (item.link) {
+      lines.push(`Link: ${item.link}`);
+    }
+
+    return lines.join("\n");
   });
-  message +=
-    "¿Estan disponibles estos productos? Me gustaria conocer mas detalles. ✨";
+
+  const closing =
+    cart.length === 1
+      ? "Quiero conocer mas detalles y disponibilidad."
+      : "Quiero conocer mas detalles y disponibilidad de estos productos.";
+
+  const message = `${intro}\n\n${blocks.join("\n\n")}\n\n${closing}`;
 
   const encodedMessage = encodeURIComponent(message);
   const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
@@ -292,11 +315,14 @@ function animateCards() {
 function createProductCard(product) {
   const isOutOfStock = normalizeBoolean(product.agotado);
   const categoryValue = slugifyCategoryValue(product.category) || "collares";
+  const reference = getProductReference(product);
   const card = document.createElement("div");
   card.className = "product-card";
+  card.id = getProductAnchorId(product.id);
   card.setAttribute("data-category", categoryValue);
   card.setAttribute("data-id", product.id || "");
   card.setAttribute("data-agotado", isOutOfStock ? "true" : "false");
+  card.setAttribute("data-reference", reference);
   card.classList.toggle("is-out-of-stock", isOutOfStock);
 
   card.innerHTML = `
@@ -405,41 +431,9 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && cartModal.classList.contains("active")) {
     cartModal.classList.remove("active");
   }
-
-  if (e.key === "Escape" && promoPopover?.classList.contains("open")) {
-    setPromoPopoverState(false);
-  }
 });
 
 window.addEventListener("load", () => {
   loadCatalogFromData();
   updateCartCount();
-  if (promoBadgeButton && promoPopover) {
-    promoBadgeButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      setPromoPopoverState(!promoPopover.classList.contains("open"));
-    });
-  }
-
-  if (promoPopoverClose) {
-    promoPopoverClose.addEventListener("click", () => {
-      setPromoPopoverState(false);
-    });
-  }
-
-  if (promoBadgeWrap) {
-    promoBadgeWrap.addEventListener("click", (event) => {
-      event.stopPropagation();
-    });
-  }
-});
-
-document.addEventListener("click", (event) => {
-  if (!promoBadgeWrap || !promoPopover?.classList.contains("open")) {
-    return;
-  }
-
-  if (!promoBadgeWrap.contains(event.target)) {
-    setPromoPopoverState(false);
-  }
 });

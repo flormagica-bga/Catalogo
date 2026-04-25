@@ -8,6 +8,7 @@ const adminAddForm = document.getElementById("adminAddForm");
 const adminList = document.getElementById("adminList");
 const adminCount = document.getElementById("adminCount");
 const adminCategorySelect = document.getElementById("adminCategory");
+const adminReferenceInput = document.getElementById("adminReference");
 const adminCategoryForm = document.getElementById("adminCategoryForm");
 const adminCategoryName = document.getElementById("adminCategoryName");
 const adminCategoryList = document.getElementById("adminCategoryList");
@@ -31,6 +32,13 @@ const defaultCategories = [
   { value: "anillos", label: "Anillos" },
   { value: "conjuntos", label: "Conjuntos" },
 ];
+const defaultReferencePrefixes = {
+  collares: "CP",
+  aretes: "AP",
+  anillos: "NP",
+  conjuntos: "JP",
+  pinzas: "PP",
+};
 
 function normalizeBoolean(value) {
   return value === true || value === "true";
@@ -150,6 +158,7 @@ function normalizeProducts(data) {
         id,
         category: slugifyCategoryValue(item.category) || "collares",
         name: item.name || "",
+        reference: String(item.reference ?? item.referencia ?? "").trim(),
         description: item.description || "",
         price: item.price || "",
         image: item.image || "",
@@ -165,6 +174,69 @@ function updateNextId() {
     .map((product) => Number(product.id))
     .filter((value) => !Number.isNaN(value));
   nextProductId = numericIds.length ? Math.max(...numericIds) + 1 : 1;
+}
+
+function getReferenceValue(product) {
+  return String(product?.reference ?? product?.referencia ?? "").trim();
+}
+
+function getReferencePrefix(category) {
+  const normalizedCategory = slugifyCategoryValue(category);
+  const categoryProducts = products.filter(
+    (product) => slugifyCategoryValue(product.category) === normalizedCategory,
+  );
+
+  for (const product of categoryProducts) {
+    const match = getReferenceValue(product).match(/^([A-Za-z]+)\d+$/);
+    if (match) {
+      return match[1].toUpperCase();
+    }
+  }
+
+  return defaultReferencePrefixes[normalizedCategory] || "REF";
+}
+
+function getSuggestedReference(category) {
+  const normalizedCategory = slugifyCategoryValue(category);
+  const prefix = getReferencePrefix(normalizedCategory);
+  const categoryProducts = products.filter(
+    (product) => slugifyCategoryValue(product.category) === normalizedCategory,
+  );
+
+  let maxNumber = 0;
+
+  categoryProducts.forEach((product) => {
+    const match = getReferenceValue(product).match(/^([A-Za-z]+)(\d+)$/);
+    if (!match) {
+      return;
+    }
+
+    if (match[1].toUpperCase() !== prefix) {
+      return;
+    }
+
+    maxNumber = Math.max(maxNumber, Number(match[2]));
+  });
+
+  return `${prefix}${String(maxNumber + 1).padStart(2, "0")}`;
+}
+
+function updateSuggestedReference(force) {
+  if (!adminReferenceInput || !adminCategorySelect) {
+    return;
+  }
+
+  const suggestedReference = getSuggestedReference(adminCategorySelect.value);
+  const currentValue = String(adminReferenceInput.value || "").trim();
+  const lastSuggested = adminReferenceInput.dataset.lastSuggested || "";
+  const shouldReplace = force || !currentValue || currentValue === lastSuggested;
+
+  adminReferenceInput.placeholder = suggestedReference;
+  adminReferenceInput.dataset.lastSuggested = suggestedReference;
+
+  if (shouldReplace) {
+    adminReferenceInput.value = suggestedReference;
+  }
 }
 
 function formatPrice(value) {
@@ -431,6 +503,7 @@ function renderList() {
       renderStats();
       renderValidation();
       renderList();
+      updateSuggestedReference(false);
       enableExports();
     });
 
@@ -452,6 +525,7 @@ function renderList() {
       imageInput.value = product.image;
       renderValidation();
       renderStats();
+      updateSuggestedReference(false);
     });
 
     const nameInput = document.createElement("input");
@@ -464,6 +538,14 @@ function renderList() {
         image.alt = product.name || "Producto";
       }
       renderValidation();
+    });
+
+    const referenceInput = document.createElement("input");
+    referenceInput.type = "text";
+    referenceInput.value = product.reference || "";
+    referenceInput.addEventListener("input", () => {
+      product.reference = referenceInput.value.trim();
+      updateSuggestedReference(false);
     });
 
     const descriptionInput = document.createElement("textarea");
@@ -538,6 +620,7 @@ function renderList() {
 
     editPanel.appendChild(createField("Categoria", categorySelect));
     editPanel.appendChild(createField("Nombre", nameInput));
+    editPanel.appendChild(createField("Referencia", referenceInput));
     editPanel.appendChild(createField("Descripcion", descriptionInput));
     editPanel.appendChild(createField("Precio", priceInput));
     const imageField = createField("Imagen", imageInput);
@@ -647,6 +730,7 @@ function applyCatalogData(productData, categoryData, statusMessage) {
   categories = normalizeCategories(categoryData, products);
   updateNextId();
   renderCategoryOptions(adminCategorySelect, adminCategorySelect?.value);
+  updateSuggestedReference(true);
   renderCategoryList();
   renderStats();
   renderValidation();
@@ -693,6 +777,7 @@ function loadInitialCatalog() {
   products = [];
   categories = normalizeCategories(window.CATEGORIAS, products);
   renderCategoryOptions(adminCategorySelect, getDefaultCategoryValue());
+  updateSuggestedReference(true);
   renderCategoryList();
   renderStats();
   renderValidation();
@@ -721,6 +806,7 @@ adminCategoryForm.addEventListener("submit", (event) => {
   categories.push({ value, label });
   categories = normalizeCategories(categories, products);
   renderCategoryOptions(adminCategorySelect, value);
+  updateSuggestedReference(false);
   renderCategoryList();
   renderStats();
   renderList();
@@ -739,6 +825,7 @@ adminAddForm.addEventListener("submit", (event) => {
   const formData = new FormData(adminAddForm);
   const category = slugifyCategoryValue(formData.get("category")) || getDefaultCategoryValue();
   const name = String(formData.get("name") || "").trim();
+  const reference = String(formData.get("reference") || "").trim();
   const description = String(formData.get("description") || "").trim();
   const priceValue = String(formData.get("price") || "").trim();
   const alt = String(formData.get("alt") || "").trim() || name;
@@ -787,6 +874,7 @@ adminAddForm.addEventListener("submit", (event) => {
     id: String(nextProductId++),
     category,
     name,
+    reference,
     description,
     price: formattedPrice,
     image: imagePath,
@@ -800,6 +888,7 @@ adminAddForm.addEventListener("submit", (event) => {
   enableExports();
   adminAddForm.reset();
   renderCategoryOptions(adminCategorySelect, getDefaultCategoryValue());
+  updateSuggestedReference(true);
   resetPendingImage();
   setStatus("Producto agregado. Guarda catalogo.js en data/.");
   saveCatalogToFile(true);
@@ -840,6 +929,12 @@ importCatalogInput.addEventListener("change", (event) => {
 exportCatalogButton.addEventListener("click", () => {
   exportCatalog();
 });
+
+if (adminCategorySelect) {
+  adminCategorySelect.addEventListener("change", () => {
+    updateSuggestedReference(false);
+  });
+}
 
 if (saveCatalogButton) {
   saveCatalogButton.addEventListener("click", () => {

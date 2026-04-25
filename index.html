@@ -11,41 +11,22 @@
     <!-- Header -->
     <header>
       <div class="container">
-        <div class="logo-space">
-          <img src="logo.png" alt="Flor Mágica Logo" class="logo" />
-        </div>
-        <div class="cart-icon" id="cartIcon">
-          🛍️
-          <span class="cart-count" id="cartCount">0</span>
+        <div class="header-content">
+          <div class="header-top">
+            <div class="logo-space">
+              <img src="logo.png" alt="Flor Mágica Logo" class="logo" />
+            </div>
+            <div class="cart-icon" id="cartIcon">
+              🛍️
+              <span class="cart-count" id="cartCount">0</span>
+            </div>
+          </div>
+          <div class="promo-banner" aria-label="Promocion de envio">
+            Envio gratis por compras superiores a $150.000
+          </div>
         </div>
       </div>
     </header>
-
-    <div class="promo-overlay" id="promoOverlay" aria-hidden="false">
-      <div class="promo-card" role="dialog" aria-modal="true">
-        <button class="promo-close" id="promoClose" type="button">✕</button>
-
-        <h2>POR COMPRAS SUPERIORES A 150.000 ENVIO GRATIS</h2>
-      </div>
-    </div>
-
-    <div class="promo-badge-wrap" id="promoBadgeWrap">
-      <div class="promo-popover" id="promoPopover" aria-hidden="true">
-        <p>Envio gratis por compras superiores a $150.000</p>
-        <button class="promo-popover-close" id="promoPopoverClose" type="button">
-          Cerrar
-        </button>
-      </div>
-      <button
-        class="promo-badge-button"
-        id="promoBadgeButton"
-        type="button"
-        aria-expanded="false"
-        aria-controls="promoPopover"
-      >
-        Envio gratis 🚚
-      </button>
-    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -733,3 +714,4 @@
     <script src="js/catalog.js"></script>
   </body>
 </html>
+

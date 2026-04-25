@@ -41,6 +41,15 @@ header {
 }
 
 header .container {
+  display: block;
+}
+
+.header-content {
+  display: grid;
+  gap: 14px;
+}
+
+.header-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -99,139 +108,20 @@ header .container {
   font-family: "Arial", sans-serif;
 }
 
-/* Promo announcement */
-.promo-overlay {
-  display: none !important;
-}
-
-.promo-overlay.hidden {
-  display: none !important;
-}
-
-.promo-card {
-  position: relative;
-  max-width: 520px;
-  width: 100%;
-  background: linear-gradient(135deg, #fff0f5, #ffffff);
-  border: 2px solid var(--rosa-medio);
-  border-radius: 22px;
-  padding: 28px 26px 24px;
-  text-align: center;
-  box-shadow: 0 18px 40px var(--sombra);
-  transform: translateY(0) scale(1);
-  transition:
-    transform 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.promo-overlay.hidden .promo-card {
-  transform: translateY(6px) scale(0.98);
-}
-
-.promo-card h2 {
-  color: var(--rosa-oscuro);
-  font-size: 1.6rem;
-  margin: 10px 0 8px;
-  line-height: 1.3;
-}
-
-.promo-eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 0.75rem;
-  color: var(--rosa-fuerte);
-  font-weight: bold;
-}
-
-.promo-subtitle {
-  color: var(--texto-secundario);
-  font-size: 0.95rem;
-}
-
-.promo-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  border: none;
-  background: #fff0f4;
-  color: var(--rosa-oscuro);
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.promo-close:hover {
-  background: #ffe4ec;
-}
-
-.promo-badge-wrap {
-  position: fixed;
-  right: 20px;
-  bottom: 24px;
-  z-index: 90;
-  display: grid;
-  justify-items: end;
-  gap: 10px;
-  max-width: min(280px, calc(100vw - 32px));
-}
-
-.promo-badge-button {
+/* Promo banner */
+.promo-banner {
+  align-self: center;
+  max-width: 540px;
+  padding: 10px 18px;
   border: 1px solid var(--rosa-medio);
-  background: rgba(255, 255, 255, 0.96);
-  color: var(--rosa-oscuro);
   border-radius: 999px;
-  padding: 10px 14px;
-  font-family: inherit;
+  background: linear-gradient(135deg, #fff7fa, #ffffff);
+  color: var(--rosa-oscuro);
   font-size: 0.95rem;
   font-weight: 600;
-  line-height: 1.2;
-  cursor: pointer;
-  box-shadow: 0 10px 24px rgba(233, 30, 99, 0.16);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
-  max-width: 100%;
-}
-
-.promo-badge-button:hover {
-  transform: translateY(-2px);
-  background: #fff7fa;
-}
-
-.promo-popover {
-  display: none;
-  width: min(260px, calc(100vw - 32px));
-  padding: 14px 14px 12px;
-  border-radius: 16px;
-  border: 1px solid var(--rosa-claro);
-  background: rgba(255, 255, 255, 0.98);
-  color: var(--texto-principal);
-  box-shadow: 0 14px 30px rgba(233, 30, 99, 0.16);
-}
-
-.promo-popover.open {
-  display: grid;
-  gap: 10px;
-}
-
-.promo-popover p {
-  font-size: 0.92rem;
-  line-height: 1.45;
-}
-
-.promo-popover-close {
-  justify-self: start;
-  border: 1px solid var(--rosa-claro);
-  background: #fff6f9;
-  color: var(--rosa-oscuro);
-  border-radius: 999px;
-  padding: 7px 12px;
-  font-family: inherit;
-  font-size: 0.82rem;
-  cursor: pointer;
+  line-height: 1.4;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(233, 30, 99, 0.12);
 }
 
 /* Hero Section */
@@ -755,6 +645,16 @@ footer p {
     padding: 15px 0;
   }
 
+  .header-content {
+    gap: 12px;
+  }
+
+  .promo-banner {
+    max-width: 100%;
+    padding: 9px 14px;
+    font-size: 0.88rem;
+  }
+
   .logo-placeholder {
     width: 100px;
     height: 50px;
@@ -918,22 +818,6 @@ footer p {
     font-size: 1rem;
   }
 
-  .promo-badge-wrap {
-    right: 14px;
-    bottom: 78px;
-    max-width: min(240px, calc(100vw - 24px));
-  }
-
-  .promo-badge-button {
-    padding: 9px 12px;
-    font-size: 0.85rem;
-  }
-
-  .promo-popover {
-    width: min(220px, calc(100vw - 24px));
-    padding: 12px;
-  }
-
   /* Footer */
   footer {
     padding: 30px 15px;
@@ -952,6 +836,10 @@ footer p {
 /* Móviles (320px - 480px) */
 @media (max-width: 480px) {
   /* Header */
+  .header-top {
+    gap: 12px;
+  }
+
   .logo-placeholder {
     width: 80px;
     height: 40px;
@@ -973,6 +861,13 @@ footer p {
     font-size: 11px;
     top: 3px;
     right: 3px;
+  }
+
+  .promo-banner {
+    border-radius: 20px;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    line-height: 1.35;
   }
 
   /* Hero */
@@ -1138,25 +1033,6 @@ footer p {
     border-radius: 25px;
   }
 
-  .promo-badge-wrap {
-    right: 12px;
-    bottom: 86px;
-    max-width: calc(100vw - 24px);
-  }
-
-  .promo-badge-button {
-    padding: 8px 11px;
-    font-size: 0.8rem;
-  }
-
-  .promo-popover {
-    width: min(200px, calc(100vw - 24px));
-  }
-
-  .promo-popover p {
-    font-size: 0.84rem;
-  }
-
   /* Footer */
   footer {
     padding: 25px 15px;
@@ -1235,9 +1111,6 @@ footer p {
     max-height: 95vh;
   }
 
-  .promo-badge-wrap {
-    bottom: 16px;
-  }
 }
 
 /* Mejorar táctil en móviles */
