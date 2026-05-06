@@ -187,17 +187,6 @@ window.CATALOGO = [
     "agotado": true
   },
   {
-    "id": "50",
-    "category": "aretes",
-    "name": "Orquídea dendrobium Grande",
-    "reference": "AP05",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$90.000",
-    "image": "productos/aretes/orquidea dendrobium grande.jpeg",
-    "alt": "Orquídea dendrobium Grande",
-    "agotado": true
-  },
-  {
     "id": "51",
     "category": "conjuntos",
     "name": "Orquídeas Dendrobium",
@@ -261,7 +250,7 @@ window.CATALOGO = [
     "price": "$160.000",
     "image": "productos/collares/orquidea dendrobium azul.jpeg",
     "alt": "Orquídea Dendrobium Azul",
-    "agotado": true
+    "agotado": false
   },
   {
     "id": "63",
@@ -272,7 +261,7 @@ window.CATALOGO = [
     "price": "$110.000",
     "image": "productos/collares/orquidea phalaenopsis grande 4.jpeg",
     "alt": "Orquídea Dendrobium Grande",
-    "agotado": true
+    "agotado": false
   },
   {
     "id": "64",
@@ -1196,6 +1185,94 @@ window.CATALOGO = [
     "price": "$75.000",
     "image": "productos/aretes/Orquidea phalaenopsis mini AP28.jpeg",
     "alt": "Orquidea phalaenopsis mini Orquideas intervenidas",
+    "agotado": false
+  },
+  {
+    "id": "153",
+    "category": "collares",
+    "name": "Orquidea dendrobium Grande",
+    "reference": "CP36",
+    "description": "Cadena en acero inoxidable",
+    "price": "$90.000",
+    "image": "productos/collares/Orquidea dendrobium Grande CP36.jpeg",
+    "alt": "Orquidea dendrobium Grande",
+    "agotado": false
+  },
+  {
+    "id": "154",
+    "category": "aretes",
+    "name": "Orquidea Dendrobium",
+    "reference": "AP29",
+    "description": "Herrajes en acero inoxidable",
+    "price": "$85.000",
+    "image": "productos/aretes/Orquidea Dendrobium AP29.jpeg",
+    "alt": "Orquidea Dendrobium",
+    "agotado": false
+  },
+  {
+    "id": "155",
+    "category": "anillos",
+    "name": "Orquidea dendrobium",
+    "reference": "NP23",
+    "description": "Base ajustable en acero inoxidable",
+    "price": "$75.000",
+    "image": "productos/anillos/Orquidea dendrobium NP23.jpeg",
+    "alt": "Orquidea dendrobium",
+    "agotado": false
+  },
+  {
+    "id": "156",
+    "category": "collares",
+    "name": "Orquidea dendrobium",
+    "reference": "CP37",
+    "description": "Collar tipo corbatín ajustable, cadena en acero inoxidable",
+    "price": "$80.000",
+    "image": "productos/collares/Orquidea dendrobium CP37.jpeg",
+    "alt": "Orquidea dendrobium",
+    "agotado": false
+  },
+  {
+    "id": "157",
+    "category": "aretes",
+    "name": "Orquidea Dendrobium  Estilo: Topos",
+    "reference": "AP30",
+    "description": "Herrajes en acero inoxidable",
+    "price": "$85.000",
+    "image": "productos/aretes/Orquidea Dendrobium  Estilo  Topos AP30.jpeg",
+    "alt": "Orquidea Dendrobium  Estilo: Topos",
+    "agotado": false
+  },
+  {
+    "id": "158",
+    "category": "aretes",
+    "name": "Orquidea Dendrobium",
+    "reference": "AP31",
+    "description": "Herrajes en acero inoxidable",
+    "price": "$85.000",
+    "image": "productos/aretes/Orquidea Dendrobium AP31.jpeg",
+    "alt": "Orquidea Dendrobium",
+    "agotado": false
+  },
+  {
+    "id": "159",
+    "category": "collares",
+    "name": "Orquidea dendrobium",
+    "reference": "CP38",
+    "description": "Collar tipo corbatín ajustable, cadena en acero inoxidable",
+    "price": "$80.000",
+    "image": "productos/collares/Orquidea dendrobium CP38.jpeg",
+    "alt": "Orquidea dendrobium",
+    "agotado": false
+  },
+  {
+    "id": "160",
+    "category": "conjuntos",
+    "name": "Orquideas Dendrobium",
+    "reference": "JP21",
+    "description": "Herrajes y cadena en acero inoxidable",
+    "price": "$160.000",
+    "image": "productos/conjuntos/Orquideas Dendrobium JP21.jpeg",
+    "alt": "Orquideas Dendrobium",
     "agotado": false
   }
 ];
