@@ -143,17 +143,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "29",
-    "category": "aretes",
-    "name": "Orquidea Phalaenopsis Mini",
-    "reference": "AP04",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$75.000",
-    "image": "productos/aretes/orquidea phalaenopsis mini.jpeg",
-    "alt": "orquidea phalaenopsis mini ",
-    "agotado": false
-  },
-  {
     "id": "33",
     "category": "anillos",
     "name": "Orquidea Phalaenopsis",
