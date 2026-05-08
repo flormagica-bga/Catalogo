@@ -1,6 +1,10 @@
 // Variables globales
-let cart = [];
+let cart = JSON.parse(localStorage.getItem("florMagicaCart") || "[]");
 let currentFilter = "todos";
+
+function saveCart() {
+  localStorage.setItem("florMagicaCart", JSON.stringify(cart));
+}
 
 const cartIcon = document.getElementById("cartIcon");
 const cartModal = document.getElementById("cartModal");
@@ -151,6 +155,7 @@ function addToCart(productId) {
   };
 
   cart.push(product);
+  saveCart();
   updateCartCount();
   updateCartDisplay();
 
@@ -169,6 +174,7 @@ function addToCart(productId) {
 
 function removeFromCart(productId) {
   cart = cart.filter((item) => item.id !== productId);
+  saveCart();
   updateCartCount();
   updateCartDisplay();
 }
@@ -463,7 +469,45 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+function showCartRecoveryToast() {
+  if (cart.length === 0) return;
+
+  const count = cart.length;
+  const label = count === 1 ? "producto" : "productos";
+
+  const toast = document.createElement("div");
+  toast.className = "cart-toast";
+  toast.innerHTML = `
+    <span class="cart-toast-text">🛍️ Tienes ${count} ${label} guardado${count === 1 ? "" : "s"}</span>
+    <button class="cart-toast-link">Ver carrito</button>
+    <button class="cart-toast-close" aria-label="Cerrar">✕</button>
+  `;
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => toast.classList.add("visible"));
+  });
+
+  const dismiss = () => {
+    toast.classList.remove("visible");
+    setTimeout(() => toast.remove(), 400);
+  };
+
+  toast.querySelector(".cart-toast-link").addEventListener("click", () => {
+    cartModal.classList.add("active");
+    updateCartDisplay();
+    dismiss();
+  });
+
+  toast.querySelector(".cart-toast-close").addEventListener("click", dismiss);
+
+  setTimeout(dismiss, 5000);
+}
+
 window.addEventListener("load", () => {
   loadCatalogFromData();
   updateCartCount();
+  if (cart.length > 0) {
+    setTimeout(showCartRecoveryToast, 900);
+  }
 });

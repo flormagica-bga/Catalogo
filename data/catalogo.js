@@ -118,7 +118,7 @@ window.CATALOGO = [
     "price": "$50.000",
     "image": "productos/aretes/margaritas.jpeg",
     "alt": "margaritas ",
-    "agotado": true
+    "agotado": false
   },
   {
     "id": "20",
@@ -404,7 +404,7 @@ window.CATALOGO = [
     "price": "$40.000",
     "image": "productos/aretes/pensamientos.jpeg",
     "alt": "Pensamientos",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "77",
@@ -506,17 +506,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "86",
-    "category": "aretes",
-    "name": "Orquidea phalaenopsis Mini",
-    "reference": "AP16",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$75.000",
-    "image": "productos/aretes/Orquidea phalaenopsis mini 3.jpeg",
-    "alt": "Orquidea phalaenopsis Mini",
-    "agotado": false
-  },
-  {
     "id": "87",
     "category": "aretes",
     "name": "Margaritas",
@@ -602,7 +591,7 @@ window.CATALOGO = [
     "price": "$30.000",
     "image": "productos/collares/pensamiento 5.jpeg",
     "alt": "Pensamiento",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "95",
@@ -679,18 +668,7 @@ window.CATALOGO = [
     "price": "$20.000",
     "image": "productos/collares/florecitas 2.jpeg",
     "alt": "Florecitas",
-    "agotado": false
-  },
-  {
-    "id": "103",
-    "category": "collares",
-    "name": "Labelo Orquídea",
-    "reference": "CP28",
-    "description": "Cadena en acero inoxidable",
-    "price": "$20.000",
-    "image": "productos/collares/Labelo Orquídea.jpeg",
-    "alt": "Labelo Orquídea",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "104",
@@ -723,17 +701,6 @@ window.CATALOGO = [
     "price": "$30.000",
     "image": "productos/collares/Hoja Esqueletizada.jpeg",
     "alt": "Hoja Esqueletizada",
-    "agotado": false
-  },
-  {
-    "id": "107",
-    "category": "conjuntos",
-    "name": "Orquideas phalaenopsis Mini",
-    "reference": "JP04",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$130.000",
-    "image": "productos/conjuntos/Orquideas phalaenopsis Mini 3.jpeg",
-    "alt": "Orquideas phalaenopsis Mini",
     "agotado": false
   },
   {
@@ -866,18 +833,7 @@ window.CATALOGO = [
     "price": "$60.000",
     "image": "productos/conjuntos/pensamientos 8.jpeg",
     "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "121",
-    "category": "conjuntos",
-    "name": "Hojas Esqueletizadas",
-    "reference": "JP17",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$50.000",
-    "image": "productos/conjuntos/Hojas Esqueletizadas.jpeg",
-    "alt": "Hojas Esqueletizadas",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "123",
@@ -888,7 +844,7 @@ window.CATALOGO = [
     "price": "$70.000",
     "image": "productos/conjuntos/Margaritas 2.jpeg",
     "alt": "Margaritas",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "125",
@@ -1262,7 +1218,7 @@ window.CATALOGO = [
     "price": "$80.000",
     "image": "productos/collares/Orquidea dendrobium CP38.jpeg",
     "alt": "Orquidea dendrobium",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "160",

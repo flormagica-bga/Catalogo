@@ -110,6 +110,7 @@ header .container {
 
 /* Promo banner */
 .promo-banner {
+  display: none;
   align-self: center;
   max-width: 540px;
   padding: 10px 18px;
@@ -122,10 +123,10 @@ header .container {
   line-height: 1.4;
   text-align: center;
   box-shadow: 0 8px 22px rgba(233, 30, 99, 0.12);
-  }
+}
 
-  /* Banner especial mes de las Madres */
-  .madres-banner {
+/* Banner especial mes de las Madres */
+.madres-banner {
     align-self: center;
     max-width: 540px;
     margin-top: 8px;
@@ -145,14 +146,13 @@ header .container {
     gap: 6px;
   }
 
-  @media (max-width: 600px) {
-    .madres-banner {
-      font-size: 0.98rem;
-      padding: 9px 10px;
-      margin-top: 6px;
-      max-width: 98vw;
-      border-width: 1px;
-    }
+@media (max-width: 600px) {
+  .madres-banner {
+    font-size: 0.98rem;
+    padding: 9px 10px;
+    margin-top: 6px;
+    max-width: 98vw;
+    border-width: 1px;
   }
 }
 
@@ -1169,5 +1169,87 @@ footer p {
   .add-to-cart:active,
   .btn-whatsapp:active {
     transform: scale(0.95);
+  }
+}
+
+/* Toast de recuperación de carrito */
+.cart-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--blanco);
+  border: 1.5px solid var(--rosa-medio);
+  border-radius: 999px;
+  padding: 11px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 24px rgba(233, 30, 99, 0.18);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  max-width: 90vw;
+  pointer-events: none;
+}
+
+.cart-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.cart-toast-text {
+  color: var(--texto-principal);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.cart-toast-link {
+  color: var(--rosa-fuerte);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.cart-toast-link:hover {
+  color: var(--rosa-oscuro);
+}
+
+.cart-toast-close {
+  background: none;
+  border: none;
+  color: var(--texto-secundario);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cart-toast-close:hover {
+  color: var(--rosa-fuerte);
+}
+
+@media (max-width: 480px) {
+  .cart-toast {
+    bottom: 16px;
+    padding: 10px 14px;
+    gap: 8px;
+    border-radius: 16px;
+  }
+
+  .cart-toast-text {
+    font-size: 0.85rem;
+  }
+
+  .cart-toast-link {
+    font-size: 0.85rem;
   }
 }
