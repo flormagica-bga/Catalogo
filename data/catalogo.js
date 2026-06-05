@@ -330,17 +330,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "94",
-    "category": "collares",
-    "name": "Pensamiento",
-    "reference": "CP20",
-    "description": "Cadena en acero inoxidable",
-    "price": "$30.000",
-    "image": "productos/collares/pensamiento 5.jpeg",
-    "alt": "Pensamiento",
-    "agotado": true
-  },
-  {
     "id": "95",
     "category": "collares",
     "name": "Pensamiento",
@@ -493,17 +482,6 @@ window.CATALOGO = [
     "image": "productos/conjuntos/pensamientos 7.jpeg",
     "alt": "Pensamientos",
     "agotado": false
-  },
-  {
-    "id": "123",
-    "category": "conjuntos",
-    "name": "Margaritas",
-    "reference": "JP18",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$70.000",
-    "image": "productos/conjuntos/Margaritas 2.jpeg",
-    "alt": "Margaritas",
-    "agotado": true
   },
   {
     "id": "125",
