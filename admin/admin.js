@@ -12,6 +12,7 @@ const adminReferenceInput = document.getElementById("adminReference");
 const adminCategoryForm = document.getElementById("adminCategoryForm");
 const adminCategoryName = document.getElementById("adminCategoryName");
 const adminCategoryList = document.getElementById("adminCategoryList");
+const adminSearchInput = document.getElementById("adminSearchReference");
 const adminImageFile = document.getElementById("adminImageFile");
 const adminImagePreview = document.getElementById("adminImagePreview");
 const adminImagePreviewImg = document.getElementById("adminImagePreviewImg");
@@ -81,7 +82,13 @@ function normalizeCategoryItem(item) {
     };
   }
 
-  const rawValue = item.value || item.slug || item.id || item.category || item.name || item.label;
+  const rawValue =
+    item.value ||
+    item.slug ||
+    item.id ||
+    item.category ||
+    item.name ||
+    item.label;
   const value = slugifyCategoryValue(rawValue);
   if (!value) {
     return null;
@@ -229,7 +236,8 @@ function updateSuggestedReference(force) {
   const suggestedReference = getSuggestedReference(adminCategorySelect.value);
   const currentValue = String(adminReferenceInput.value || "").trim();
   const lastSuggested = adminReferenceInput.dataset.lastSuggested || "";
-  const shouldReplace = force || !currentValue || currentValue === lastSuggested;
+  const shouldReplace =
+    force || !currentValue || currentValue === lastSuggested;
 
   adminReferenceInput.placeholder = suggestedReference;
   adminReferenceInput.dataset.lastSuggested = suggestedReference;
@@ -237,6 +245,32 @@ function updateSuggestedReference(force) {
   if (shouldReplace) {
     adminReferenceInput.value = suggestedReference;
   }
+}
+
+let currentSearchReference = "";
+
+function getFilteredProducts() {
+  const query = String(currentSearchReference || "")
+    .trim()
+    .toLowerCase();
+  if (!query) {
+    return products;
+  }
+
+  return products.filter((product) =>
+    String(product.reference || "")
+      .toLowerCase()
+      .includes(query),
+  );
+}
+
+function updateSearchResults() {
+  if (!adminSearchInput) {
+    return;
+  }
+
+  currentSearchReference = String(adminSearchInput.value || "").trim();
+  renderList();
 }
 
 function formatPrice(value) {
@@ -307,13 +341,10 @@ function resetPendingImage() {
 function renderStats() {
   adminStats.innerHTML = "";
   const total = products.length;
-  const counts = products.reduce(
-    (acc, product) => {
-      acc[product.category] = (acc[product.category] || 0) + 1;
-      return acc;
-    },
-    {},
-  );
+  const counts = products.reduce((acc, product) => {
+    acc[product.category] = (acc[product.category] || 0) + 1;
+    return acc;
+  }, {});
 
   const stats = [
     { label: "Total", value: total },
@@ -399,7 +430,8 @@ function renderCategoryOptions(selectElement, selectedValue) {
     return;
   }
 
-  const currentValue = slugifyCategoryValue(selectedValue) || getDefaultCategoryValue();
+  const currentValue =
+    slugifyCategoryValue(selectedValue) || getDefaultCategoryValue();
   selectElement.innerHTML = "";
 
   categories.forEach((category) => {
@@ -431,18 +463,22 @@ function renderCategoryList() {
 }
 
 function renderList() {
-  adminList.innerHTML = "";
-  adminCount.textContent = `${products.length} productos`;
+  const filteredProducts = getFilteredProducts();
 
-  if (products.length === 0) {
+  adminList.innerHTML = "";
+  adminCount.textContent = `${filteredProducts.length} productos`;
+
+  if (filteredProducts.length === 0) {
     const empty = document.createElement("p");
     empty.className = "admin-hint";
-    empty.textContent = "No hay productos cargados.";
+    empty.textContent = products.length
+      ? "No se encontraron productos con esa referencia."
+      : "No hay productos cargados.";
     adminList.appendChild(empty);
     return;
   }
 
-  products.forEach((product) => {
+  filteredProducts.forEach((product) => {
     const card = document.createElement("div");
     card.className = "product-card admin-product-card";
 
@@ -627,7 +663,9 @@ function renderList() {
     imageField.appendChild(imageFileLabel);
     editPanel.appendChild(imageField);
     editPanel.appendChild(createField("Alt", altInput));
-    editPanel.appendChild(createCheckboxField("Marcar como agotado", agotadoInput));
+    editPanel.appendChild(
+      createCheckboxField("Marcar como agotado", agotadoInput),
+    );
 
     toggleButton.addEventListener("click", () => {
       const isOpen = editPanel.classList.toggle("open");
@@ -673,11 +711,7 @@ function enableExports() {
 }
 
 function exportCatalog() {
-  downloadFile(
-    serializeCatalogFile(),
-    "catalogo.js",
-    "application/javascript",
-  );
+  downloadFile(serializeCatalogFile(), "catalogo.js", "application/javascript");
   setStatus("Descargado catalogo.js. Reemplaza data/catalogo.js.");
 }
 
@@ -823,7 +857,8 @@ adminAddForm.addEventListener("submit", (event) => {
   }
 
   const formData = new FormData(adminAddForm);
-  const category = slugifyCategoryValue(formData.get("category")) || getDefaultCategoryValue();
+  const category =
+    slugifyCategoryValue(formData.get("category")) || getDefaultCategoryValue();
   const name = String(formData.get("name") || "").trim();
   const reference = String(formData.get("reference") || "").trim();
   const description = String(formData.get("description") || "").trim();
@@ -940,6 +975,10 @@ if (saveCatalogButton) {
   saveCatalogButton.addEventListener("click", () => {
     saveCatalogToFile(true);
   });
+}
+
+if (adminSearchInput) {
+  adminSearchInput.addEventListener("input", updateSearchResults);
 }
 
 window.addEventListener("load", () => {

@@ -22,17 +22,6 @@ window.CATEGORIAS = [
 ];
 window.CATALOGO = [
   {
-    "id": "1",
-    "category": "collares",
-    "name": "Buganvilia",
-    "reference": "CP01",
-    "description": "Cadena en acero inoxidable",
-    "price": "$35.000",
-    "image": "productos/collares/buganvilia.jpeg",
-    "alt": "buganvilia",
-    "agotado": false
-  },
-  {
     "id": "2",
     "category": "collares",
     "name": "Hortensia Lila",
@@ -55,17 +44,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "7",
-    "category": "collares",
-    "name": "Orquidea dendrobium",
-    "reference": "CP04",
-    "description": "Cadena en acero inoxidable",
-    "price": "$75.000",
-    "image": "productos/collares/orquidea dendrobium 2.jpeg",
-    "alt": "orquidea dendrobium 2",
-    "agotado": false
-  },
-  {
     "id": "11",
     "category": "collares",
     "name": "Orquidea Phalaenopsis Mini",
@@ -74,17 +52,6 @@ window.CATALOGO = [
     "price": "$60.000",
     "image": "productos/collares/orquidea phalaenopsis mini 2 .jpeg",
     "alt": " orquidea phalaenopsis mini 2",
-    "agotado": false
-  },
-  {
-    "id": "13",
-    "category": "collares",
-    "name": "Orquidea Phalaenopsis Mini",
-    "reference": "CP06",
-    "description": "Collar hecho a mano con alambrismo acompañado de piedras de\n                murano y perlitas",
-    "price": "$140.000",
-    "image": "productos/collares/orquidea phalaenopsis mini 4.jpeg",
-    "alt": "orquidea phalaenopsis mini 4 ",
     "agotado": false
   },
   {
@@ -140,50 +107,6 @@ window.CATALOGO = [
     "price": "$75.000",
     "image": "productos/aretes/orquidea phalaenopsis mini estilo topos.jpeg .jpeg",
     "alt": " orquidea mini estilo topos",
-    "agotado": false
-  },
-  {
-    "id": "33",
-    "category": "anillos",
-    "name": "Orquidea Phalaenopsis",
-    "reference": "NP01",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$55.000",
-    "image": "productos/anillos/orquidea phalaenopsis.jpeg",
-    "alt": "orquidea phalaenopsis ",
-    "agotado": false
-  },
-  {
-    "id": "40",
-    "category": "conjuntos",
-    "name": "Orquideas Phalaenopsis Mini",
-    "reference": "JP01",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$130.000",
-    "image": "productos/conjuntos/orquideas phalaenopsis mini.jpeg",
-    "alt": " ",
-    "agotado": false
-  },
-  {
-    "id": "49",
-    "category": "collares",
-    "name": "Orquidea Dendrobium grande",
-    "reference": "CP09",
-    "description": "Collar hecho a mano con técnica de Alambrismo, acompañado de perlas polvo de Nacar y Murano",
-    "price": "$150.000",
-    "image": "productos/collares/orquidea phalaenopsis grande 3.jpeg",
-    "alt": "Orquidea Dendrobium grande",
-    "agotado": true
-  },
-  {
-    "id": "51",
-    "category": "conjuntos",
-    "name": "Orquídeas Dendrobium",
-    "reference": "JP02",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$180.000",
-    "image": "productos/conjuntos/orquideas dendrobium 3.jpeg",
-    "alt": "Orquídeas Dendrobium",
     "agotado": true
   },
   {
@@ -195,51 +118,7 @@ window.CATALOGO = [
     "price": "$60.000",
     "image": "productos/collares/orquidea mini.jpeg",
     "alt": "Oquidea Mini",
-    "agotado": false
-  },
-  {
-    "id": "59",
-    "category": "collares",
-    "name": "Orquídea Dendrobium Negra",
-    "reference": "CP11",
-    "description": "Collar graduable tipo corbatín con balines en acero inoxidable",
-    "price": "$125.000",
-    "image": "productos/collares/orquidea dendrobium negra.jpeg",
-    "alt": "Orquídea Dendrobium Negra",
-    "agotado": false
-  },
-  {
-    "id": "60",
-    "category": "collares",
-    "name": "Orquídea Dendrobium",
-    "reference": "CP12",
-    "description": "Collar hecho a mano acompañado de perlas polvo de Nacar y Murano",
-    "price": "$180.000",
-    "image": "productos/collares/orquidea dendrobium 4.jpeg",
-    "alt": "Orquídea Dendrobium",
     "agotado": true
-  },
-  {
-    "id": "61",
-    "category": "collares",
-    "name": "Orquídea Dendrobium",
-    "reference": "CP13",
-    "description": "Collar hecho a mano con técnica de Alambrismo, acompañado de perlas polvo de Nacar, perlas en vidrio y Mostacilla",
-    "price": "$180.000",
-    "image": "productos/collares/orquidea dendrobium 5.jpeg",
-    "alt": "Orquídea Dendrobium",
-    "agotado": false
-  },
-  {
-    "id": "62",
-    "category": "collares",
-    "name": "Orquídea Dendrobium Azul",
-    "reference": "CP14",
-    "description": "Collar hecho a mano con técnica de Alambrismo, acompañado de perlas polvo de Nacar y Murano",
-    "price": "$160.000",
-    "image": "productos/collares/orquidea dendrobium azul.jpeg",
-    "alt": "Orquídea Dendrobium Azul",
-    "agotado": false
   },
   {
     "id": "63",
@@ -253,39 +132,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "64",
-    "category": "conjuntos",
-    "name": "Orquideas Odontoglossum",
-    "reference": "JP03",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$150.000",
-    "image": "productos/conjuntos/Orquideas Odontoglossum.jpeg",
-    "alt": "Orquideas Odontoglossum",
-    "agotado": false
-  },
-  {
-    "id": "65",
-    "category": "anillos",
-    "name": "Orquídea Dendrobium",
-    "reference": "NP02",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$55.000",
-    "image": "productos/anillos/orquidea dendrobium.jpeg",
-    "alt": "Orquídea Dendrobium",
-    "agotado": true
-  },
-  {
-    "id": "66",
-    "category": "anillos",
-    "name": "Pensamientos",
-    "reference": "NP03",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$25.000",
-    "image": "productos/anillos/Pensamientos.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
     "id": "67",
     "category": "anillos",
     "name": "Hortensias",
@@ -294,17 +140,6 @@ window.CATALOGO = [
     "price": "$25.000",
     "image": "productos/anillos/Hortensias.jpeg",
     "alt": "Hortensias",
-    "agotado": false
-  },
-  {
-    "id": "68",
-    "category": "anillos",
-    "name": "Orquidea phalaenopsis Mini",
-    "reference": "NP05",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$55.000",
-    "image": "productos/anillos/Orquidea phalaenopsis Mini.jpeg",
-    "alt": "Orquidea phalaenopsis Mini",
     "agotado": false
   },
   {
@@ -326,28 +161,6 @@ window.CATALOGO = [
     "description": "Base ajustable en acero inoxidable",
     "price": "$25.000",
     "image": "productos/anillos/pensamientos 3.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "71",
-    "category": "anillos",
-    "name": "Pensamientos",
-    "reference": "NP08",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$25.000",
-    "image": "productos/anillos/Pensamientos 4.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "72",
-    "category": "anillos",
-    "name": "Pensamientos",
-    "reference": "NP09",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$25.000",
-    "image": "productos/anillos/Pensamientos 5.jpeg",
     "alt": "Pensamientos",
     "agotado": false
   },
@@ -385,17 +198,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "76",
-    "category": "aretes",
-    "name": "Pensamientos",
-    "reference": "AP06",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$40.000",
-    "image": "productos/aretes/pensamientos.jpeg",
-    "alt": "Pensamientos",
-    "agotado": true
-  },
-  {
     "id": "77",
     "category": "aretes",
     "name": "Pensamientos",
@@ -404,28 +206,6 @@ window.CATALOGO = [
     "price": "$40.000",
     "image": "productos/aretes/pensamientos 2.jpeg",
     "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "78",
-    "category": "aretes",
-    "name": "Pensamientos",
-    "reference": "AP08",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$40.000",
-    "image": "productos/aretes/pensamientos 3.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "79",
-    "category": "aretes",
-    "name": "Pensamientos Estilo: Topos",
-    "reference": "AP09",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$40.000",
-    "image": "productos/aretes/Pensamientosestilo topos.jpeg",
-    "alt": "Pensamientos Estilo: Topos",
     "agotado": false
   },
   {
@@ -459,7 +239,7 @@ window.CATALOGO = [
     "price": "$40.000",
     "image": "productos/aretes/pensamientos 6.jpeg",
     "alt": "Pensamientos",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "83",
@@ -492,28 +272,6 @@ window.CATALOGO = [
     "price": "$40.000",
     "image": "productos/aretes/hortensias.jpeg",
     "alt": "Hortensias",
-    "agotado": false
-  },
-  {
-    "id": "87",
-    "category": "aretes",
-    "name": "Margaritas",
-    "reference": "AP17",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$40.000",
-    "image": "productos/aretes/margaritas 2.jpeg",
-    "alt": "Margaritas",
-    "agotado": false
-  },
-  {
-    "id": "88",
-    "category": "aretes",
-    "name": "Orquidea phalaenopsis mediana",
-    "reference": "AP18",
-    "description": "Herrajes en acero inoxidable",
-    "price": "$80.000",
-    "image": "productos/aretes/Orquidea phalaenopsis mediana.jpeg",
-    "alt": "Orquidea phalaenopsis mediana",
     "agotado": false
   },
   {
@@ -590,17 +348,6 @@ window.CATALOGO = [
     "description": "Cadena en acero inoxidable",
     "price": "$30.000",
     "image": "productos/collares/pensamiento 6.jpeg",
-    "alt": "Pensamiento",
-    "agotado": false
-  },
-  {
-    "id": "96",
-    "category": "collares",
-    "name": "Pensamiento",
-    "reference": "CP22",
-    "description": "Cadena en acero inoxidable",
-    "price": "$30.000",
-    "image": "productos/collares/Pensamiento 7.jpeg",
     "alt": "Pensamiento",
     "agotado": false
   },
@@ -682,28 +429,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "106",
-    "category": "collares",
-    "name": "Hoja Esqueletizada",
-    "reference": "CP31",
-    "description": "Cadena en acero inoxidable",
-    "price": "$30.000",
-    "image": "productos/collares/Hoja Esqueletizada.jpeg",
-    "alt": "Hoja Esqueletizada",
-    "agotado": false
-  },
-  {
-    "id": "108",
-    "category": "conjuntos",
-    "name": "Orquideas phalaenopsis Mediana",
-    "reference": "JP05",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$150.000",
-    "image": "productos/conjuntos/Orquideas phalaenopsis Mediana.jpeg",
-    "alt": "Orquideas phalaenopsis Mediana",
-    "agotado": false
-  },
-  {
     "id": "110",
     "category": "conjuntos",
     "name": "Orquideas phalaenopsis Mini",
@@ -737,50 +462,6 @@ window.CATALOGO = [
     "agotado": false
   },
   {
-    "id": "113",
-    "category": "conjuntos",
-    "name": "Pensamientos",
-    "reference": "JP09",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$60.000",
-    "image": "productos/conjuntos/pensamientos.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "114",
-    "category": "conjuntos",
-    "name": "Pensamientos",
-    "reference": "JP10",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$60.000",
-    "image": "productos/conjuntos/pensamientos 2.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "115",
-    "category": "conjuntos",
-    "name": "Pensamientos",
-    "reference": "JP11",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$60.000",
-    "image": "productos/conjuntos/pensamientos 3.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
-    "id": "116",
-    "category": "conjuntos",
-    "name": "Pensamientos",
-    "reference": "JP12",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$60.000",
-    "image": "productos/conjuntos/pensamientos 4.jpeg",
-    "alt": "Pensamientos",
-    "agotado": false
-  },
-  {
     "id": "117",
     "category": "conjuntos",
     "name": "Pensamientos",
@@ -789,7 +470,7 @@ window.CATALOGO = [
     "price": "$60.000",
     "image": "productos/conjuntos/pensamientos 5.jpeg",
     "alt": "Pensamientos",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "118",
@@ -812,17 +493,6 @@ window.CATALOGO = [
     "image": "productos/conjuntos/pensamientos 7.jpeg",
     "alt": "Pensamientos",
     "agotado": false
-  },
-  {
-    "id": "120",
-    "category": "conjuntos",
-    "name": "Pensamientos",
-    "reference": "JP16",
-    "description": "Herrajes y cadena en acero inoxidable",
-    "price": "$60.000",
-    "image": "productos/conjuntos/pensamientos 8.jpeg",
-    "alt": "Pensamientos",
-    "agotado": true
   },
   {
     "id": "123",
@@ -877,28 +547,6 @@ window.CATALOGO = [
     "price": "$57.000",
     "image": "productos/anillos/Orquidea Odontoglossum NP10.jpeg",
     "alt": "Orquidea Odontoglossum",
-    "agotado": false
-  },
-  {
-    "id": "130",
-    "category": "anillos",
-    "name": "Orquidea phalaenopsis mini",
-    "reference": "NP15",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$55.000",
-    "image": "productos/anillos/Orquidea phalaenopsis mini NP11.jpeg",
-    "alt": "Orquidea phalaenopsis mini",
-    "agotado": false
-  },
-  {
-    "id": "131",
-    "category": "anillos",
-    "name": "Orquidea phalaenopsis mini",
-    "reference": "NP16",
-    "description": "Base ajustable en acero inoxidable",
-    "price": "$55.000",
-    "image": "productos/anillos/Orquidea phalaenopsis minI NP12.jpeg",
-    "alt": "Orquidea phalaenopsis mini",
     "agotado": false
   },
   {
@@ -976,7 +624,7 @@ window.CATALOGO = [
     "price": "$150.000",
     "image": "productos/conjuntos/Orquideas Phalaenopsis Mediana JP07.jpeg",
     "alt": "Orquideas Phalaenopsis Mediana",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "139",
@@ -987,7 +635,7 @@ window.CATALOGO = [
     "price": "$150.000",
     "image": "productos/conjuntos/Orquideas Phalaenopsis Mediana JP08.jpeg",
     "alt": "Orquideas Phalaenopsis Mediana",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "140",
@@ -1042,7 +690,7 @@ window.CATALOGO = [
     "price": "$85.000",
     "image": "productos/aretes/Orquidea phalaenopsis mediana AP20.jpeg",
     "alt": "Orquidea phalaenopsis mediana",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "145",
@@ -1053,7 +701,7 @@ window.CATALOGO = [
     "price": "$85.000",
     "image": "productos/aretes/orquidea phalaenopsis mediana estilo topos AP21.jpeg",
     "alt": "Orquidea phalaenopsis mediana Estilo: topos",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "146",
@@ -1075,7 +723,7 @@ window.CATALOGO = [
     "price": "$85.000",
     "image": "productos/aretes/orquidea phalaenopsis mediana estilo topos AP23.jpeg",
     "alt": "Orquidea phalaenopsis mediana Estilo: topos",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "148",
@@ -1108,7 +756,7 @@ window.CATALOGO = [
     "price": "$77.000",
     "image": "productos/aretes/Orquidea Odontoglossum AP26.jpeg",
     "alt": "Orquidea Odontoglossum",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "151",
@@ -1163,7 +811,7 @@ window.CATALOGO = [
     "price": "$75.000",
     "image": "productos/anillos/Orquidea dendrobium NP23.jpeg",
     "alt": "Orquidea dendrobium",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "156",
@@ -1174,7 +822,7 @@ window.CATALOGO = [
     "price": "$80.000",
     "image": "productos/collares/Orquidea dendrobium CP37.jpeg",
     "alt": "Orquidea dendrobium",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "157",
@@ -1196,7 +844,7 @@ window.CATALOGO = [
     "price": "$85.000",
     "image": "productos/aretes/Orquidea Dendrobium AP31.jpeg",
     "alt": "Orquidea Dendrobium",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "159",

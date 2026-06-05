@@ -101,6 +101,20 @@ body {
   flex-wrap: wrap;
 }
 
+.admin-search {
+  width: 100%;
+  max-width: 320px;
+}
+
+.admin-search input {
+  width: 100%;
+  border: 1px solid var(--rosa-claro);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
 .admin-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
