@@ -884,7 +884,7 @@ window.CATALOGO = [
     "category": "collares",
     "name": "Orquidea Dendrobium",
     "reference": "CP39",
-    "description": "Cadena en acero inoxidable",
+    "description": "Collar tipo corbatín ajustable, cadena en acero inoxidable",
     "price": "$80.000",
     "image": "productos/collares/Orquidea Dendrobium CP39.jpeg",
     "alt": "Orquidea Dendrobium",
