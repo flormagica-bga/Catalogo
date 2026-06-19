@@ -283,7 +283,7 @@ window.CATALOGO = [
     "price": "$35.000",
     "image": "productos/aretes/hortensias 2.jpeg",
     "alt": "Hortensias",
-    "agotado": false
+    "agotado": true
   },
   {
     "id": "90",
@@ -1020,6 +1020,39 @@ window.CATALOGO = [
     "price": "$55.000",
     "image": "productos/collares/Margarita CP44.jpeg",
     "alt": "Margarita",
+    "agotado": false
+  },
+  {
+    "id": "177",
+    "category": "aretes",
+    "name": "Petalos de Girasol",
+    "reference": "AP36",
+    "description": "Herrajes en acero inoxidable",
+    "price": "$35.000",
+    "image": "productos/aretes/Petalos de Girasol AP36.jpeg",
+    "alt": "Petalos de Girasol",
+    "agotado": false
+  },
+  {
+    "id": "178",
+    "category": "anillos",
+    "name": "Orquidea phalaenopsis mini",
+    "reference": "NP25",
+    "description": "Base ajustable en acero inoxidable",
+    "price": "$55.000",
+    "image": "productos/anillos/Orquidea phalaenopsis mini NP25.jpeg",
+    "alt": "Orquidea phalaenopsis mini",
+    "agotado": false
+  },
+  {
+    "id": "179",
+    "category": "anillos",
+    "name": "Orquidea phalaenopsis mini",
+    "reference": "NP05",
+    "description": "Base ajustable en acero inoxidable",
+    "price": "$55.000",
+    "image": "productos/anillos/Orquidea phalaenopsis mini NP05.jpeg",
+    "alt": "Orquidea phalaenopsis mini",
     "agotado": false
   }
 ];
